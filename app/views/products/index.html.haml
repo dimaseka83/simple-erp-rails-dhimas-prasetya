@@ -1,0 +1,38 @@
+- content_for :title, t(".heading")
+
+.page-container-wide
+  .page-header
+    %h1.page-title= t(".heading")
+    .toolbar
+      = link_to t(".manage_categories"), categories_path, class: "btn-secondary"
+      = link_to t(".add"), new_product_path, class: "btn-submit"
+
+  - if flash[:notice]
+    .alert-notice= flash[:notice]
+
+  - if @presenter_list.empty?
+    .empty-state= t(".empty")
+  - else
+    .table-container
+      %table.data-table
+        %thead.data-table-head
+          %tr
+            %th.data-table-head-cell= t(".name")
+            %th.data-table-head-cell= t(".sku")
+            %th.data-table-head-cell= t(".category")
+            %th.data-table-head-cell= t(".unit")
+            %th.data-table-head-cell= t(".selling_price")
+            %th.data-table-head-cell= t(".stock")
+            %th.data-table-head-cell
+        %tbody
+          - @presenter_list.each do |product|
+            %tr.data-table-row
+              %td.data-table-cell-primary= link_to product.name, product.path, class: "hover:underline"
+              %td.data-table-cell= product.sku
+              %td.data-table-cell= product.category_name
+              %td.data-table-cell= product.unit_label
+              %td.data-table-cell= product.selling_price_formatted
+              %td.data-table-cell
+                %span{class: product.stock_badge_classes}
+                  = product.stock_quantity_formatted
+              %td.data-table-cell= link_to t("categories.index.edit"), product.edit_path, class: "link-accent"

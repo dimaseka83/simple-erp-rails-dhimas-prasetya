@@ -49,3 +49,84 @@ en:
       heading: "Dashboard"
       subheading: "Inventory, procurement, and sales modules will appear here."
       sign_out: "Sign out"
+  units:
+    pcs: "pcs"
+    kg: "kg"
+    box: "box"
+  categories:
+    index:
+      heading: "Categories"
+      add: "Add category"
+      empty: "No categories yet."
+      name: "Name"
+      edit: "Edit"
+      new_heading: "New category"
+      edit_heading: "Edit category"
+    create:
+      notice: "Category created."
+    update:
+      notice: "Category updated."
+    form:
+      name_label: "Name"
+      submit: "Save category"
+      cancel: "Cancel"
+  products:
+    index:
+      heading: "Products"
+      add: "Add product"
+      manage_categories: "Manage categories"
+      empty: "No products yet."
+      name: "Name"
+      sku: "SKU"
+      category: "Category"
+      unit: "Unit"
+      cost_price: "Cost price"
+      selling_price: "Selling price"
+      stock: "Stock"
+    new:
+      heading: "New product"
+    edit:
+      heading: "Edit product"
+    show:
+      record_movement: "Record movement"
+      edit: "Edit product"
+      cost_price: "Cost price"
+      selling_price: "Selling price"
+      current_stock: "Current stock"
+      movement_history: "Movement history"
+      no_movements: "No stock movements recorded yet."
+    create:
+      notice: "Product created."
+    update:
+      notice: "Product updated."
+    form:
+      name_label: "Name"
+      sku_label: "SKU"
+      category_label: "Category"
+      unit_label: "Unit"
+      cost_price_label: "Cost price"
+      selling_price_label: "Selling price"
+      submit: "Save product"
+  stock_movements:
+    index:
+      heading: "Stock movements"
+      empty: "No stock movements recorded yet."
+      product: "Product"
+      type: "Type"
+      quantity: "Quantity"
+      note: "Note"
+      by: "By"
+      date: "Date"
+    create:
+      notice: "Stock movement recorded."
+    form:
+      movement_type_label: "Movement type"
+      quantity_label: "Quantity"
+      note_label: "Note (optional)"
+      submit: "Record movement"
+    types:
+      stock_in: "In"
+      stock_out: "Out"
+    errors:
+      invalid_quantity: "Quantity must be greater than zero."
+      insufficient_stock: "Not enough stock for this movement."

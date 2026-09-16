@@ -1,0 +1,11 @@
+- url = category.persisted? ? category_path(category) : categories_path
+
+= form_with model: category, url: url, class: "space-y-5" do |form|
+  = request_uuid_field
+  .field-group
+    = form.label :name, t("categories.form.name_label"), class: "field-label"
+    = form.text_field :name, value: category.name, required: true, autofocus: true, class: "field-input"
+
+  .form-actions
+    = link_to t("categories.form.cancel"), categories_path, class: "btn-secondary"
+    = form.submit t("categories.form.submit"), class: "btn-submit"

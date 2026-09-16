@@ -1,0 +1,38 @@
+- content_for :title, t(".heading")
+
+.page-container-wide
+  .page-header
+    %h1.page-title= t(".heading")
+    = link_to t(".add"), categories_path(new: true), class: "btn-submit hidden md:inline-flex"
+
+  - if flash[:notice]
+    .alert-notice= flash[:notice]
+
+  .split-panel
+    .split-panel-list{class: ("hidden md:block" if @show_form)}
+      - if @categories.empty?
+        .empty-state= t(".empty")
+      - else
+        .table-container
+          %table.data-table
+            %thead.data-table-head
+              %tr
+                %th.data-table-head-cell= t(".name")
+                %th.data-table-head-cell
+            %tbody
+              - @categories.each do |category|
+                %tr.data-table-row
+                  %td.data-table-cell-primary= category.name
+                  %td.data-table-cell= link_to t(".edit"), categories_path(edit: category.id), class: "link-accent"
+
+    .split-panel-form{class: ("hidden md:block" unless @show_form)}
+      .panel
+        .panel-header
+          %h2.panel-title= @category.persisted? ? t(".edit_heading") : t(".new_heading")
+        = render "form", category: @category
+
+  - unless @show_form
+    .mobile-add-bar
+      = link_to categories_path(new: true), class: "mobile-add-button", "aria-label" => t(".add") do
+        %svg.icon-md{xmlns: "http://www.w3.org/2000/svg", viewbox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width" => "2", "stroke-linecap" => "round", "stroke-linejoin" => "round"}
+          %path{d: "M12 5v14M5 12h14"}

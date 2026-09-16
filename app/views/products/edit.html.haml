@@ -1,0 +1,5 @@
+- content_for :title, t(".heading")
+
+.page-container-wide
+  .panel
+    = render "form", product: @product, categories: @categories, url: product_path(@product)

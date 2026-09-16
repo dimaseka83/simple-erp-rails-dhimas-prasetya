@@ -1,6 +1,6 @@
 class NavigationPresenter < ApplicationPresenter
-  def dashboard_link_classes
-    dashboard_active? ? "nav-link-active" : "nav-link-inactive"
+  def link_classes(path)
+    view.current_page?(path) ? "nav-link-active" : "nav-link-inactive"
   end
 
   def soon_item_classes
@@ -10,9 +10,4 @@ class NavigationPresenter < ApplicationPresenter
   def soon_badge_classes
     "nav-badge"
   end
-
-  private
-    def dashboard_active?
-      view.current_page?(view.root_path)
-    end
 end

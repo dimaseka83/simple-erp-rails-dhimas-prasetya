@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
   end
 
   def create
-    result = ::Sessions::Create.call(
+    result = ::SessionsManager.create(
       email_address: params[:email_address],
       password: params[:password],
       user_agent: request.user_agent,

@@ -39,6 +39,11 @@
   .btn-secondary {
     @apply inline-flex cursor-pointer items-center justify-center rounded-md border border-stone-300 px-4 py-2.5 text-sm font-medium text-stone-700 transition-colors hover:bg-stone-50 dark:border-stone-700 dark:text-stone-300 dark:hover:bg-ink-2;
   }
+  /* Same look as .btn-primary but auto-width, for inline form-action rows
+     rather than a lone full-width auth submit. */
+  .btn-submit {
+    @apply inline-flex cursor-pointer items-center justify-center rounded-md bg-amber px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-amber/90;
+  }
 
   .field-label {
     @apply block text-sm font-medium text-stone-700 dark:text-stone-300;
@@ -230,5 +235,93 @@
 
   .avatar {
     @apply grid size-8 place-items-center rounded-full bg-amber text-sm font-semibold text-white;
+  }
+
+  .page-container-wide {
+    @apply mx-auto max-w-6xl px-6 py-10;
+  }
+  .page-header {
+    @apply mb-6 flex items-center justify-between gap-4;
+  }
+  .page-title {
+    @apply text-xl font-semibold text-stone-900 dark:text-white;
+  }
+
+  .panel {
+    @apply rounded-xl border border-stone-200 bg-white p-6 shadow-sm dark:border-stone-700 dark:bg-ink-2;
+  }
+  .panel-header {
+    @apply mb-4 flex items-center justify-between gap-4;
+  }
+  .panel-title {
+    @apply text-base font-semibold text-stone-900 dark:text-white;
+  }
+
+  .select-input {
+    @apply w-full rounded-md border border-stone-300 bg-white px-3 py-2.5 text-stone-900 focus:border-amber focus:outline-none focus:ring-1 focus:ring-amber dark:border-stone-600 dark:bg-ink dark:text-white;
+  }
+
+  .form-grid {
+    @apply grid gap-5 sm:grid-cols-2;
+  }
+  .form-actions {
+    @apply flex justify-end gap-3;
+  }
+
+  .table-container {
+    @apply overflow-x-auto rounded-xl border border-stone-200 dark:border-stone-700;
+  }
+  .data-table {
+    @apply w-full text-left text-sm;
+  }
+  .data-table-head {
+    @apply bg-stone-50 text-xs font-semibold uppercase tracking-wider text-stone-400 dark:bg-ink dark:text-stone-600;
+  }
+  .data-table-head-cell {
+    @apply px-4 py-3;
+  }
+  .data-table-row {
+    @apply border-t border-stone-100 dark:border-stone-800;
+  }
+  .data-table-cell {
+    @apply px-4 py-3 text-stone-700 dark:text-stone-300;
+  }
+  .data-table-cell-primary {
+    @apply px-4 py-3 font-medium text-stone-900 dark:text-white;
+  }
+
+  .badge-in {
+    @apply inline-flex rounded px-2 py-0.5 text-xs font-medium bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400;
+  }
+  .badge-out {
+    @apply inline-flex rounded px-2 py-0.5 text-xs font-medium bg-red-50 text-red-700 dark:bg-red-950 dark:text-red-400;
+  }
+  .badge-low-stock {
+    @apply inline-flex rounded px-2 py-0.5 text-xs font-medium bg-amber/10 text-amber;
+  }
+  .badge-ok-stock {
+    @apply inline-flex rounded px-2 py-0.5 text-xs font-medium bg-stone-100 text-stone-500 dark:bg-ink dark:text-stone-400;
+  }
+
+  .empty-state {
+    @apply py-12 text-center text-sm text-stone-400 dark:text-stone-600;
+  }
+
+  .detail-list {
+    @apply space-y-4;
+  }
+  .page-sections {
+    @apply space-y-8;
+  }
+
+  .split-panel {
+    @apply grid gap-6 md:grid-cols-[1fr_360px];
+  }
+
+  .mobile-add-bar {
+    @apply fixed inset-x-0 bottom-0 z-30 flex justify-center border-t border-stone-200 bg-white/90 p-4 backdrop-blur md:hidden dark:border-stone-800 dark:bg-ink-2/90;
+  }
+  .mobile-add-button {
+    @apply grid size-12 place-items-center rounded-full bg-amber text-white shadow-lg;
   }
 }

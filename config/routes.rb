@@ -2,6 +2,12 @@ Rails.application.routes.draw do
   resource :session
   resources :passwords, param: :token
   get "locale/:locale", to: "locales#update", as: :set_locale, constraints: { locale: /en|id/ }
+
+  resources :categories, only: %i[ index create update ]
+  resources :products do
+    resources :stock_movements, only: :create
+  end
+  resources :stock_movements, only: :index
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

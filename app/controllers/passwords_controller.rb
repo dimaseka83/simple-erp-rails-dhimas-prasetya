@@ -10,7 +10,7 @@ class PasswordsController < ApplicationController
   end
 
   def create
-    ::Passwords::RequestReset.call(email_address: params[:email_address])
+    ::PasswordsManager.request_reset(email_address: params[:email_address])
     redirect_to new_session_path, notice: t("passwords.create.notice")
   end
 
@@ -18,7 +18,7 @@ class PasswordsController < ApplicationController
   end
 
   def update
-    result = ::Passwords::Reset.call(
+    result = ::PasswordsManager.reset(
       user: @user,
       password: params[:password],
       password_confirmation: params[:password_confirmation]

@@ -1,0 +1,76 @@
+- content_for :title, @presenter.name
+
+.page-container-wide
+  .page-header
+    %h1.page-title= @presenter.name
+    = link_to t(".edit"), @presenter.edit_path, class: "btn-secondary"
+
+  - if flash[:notice]
+    .alert-notice= flash[:notice]
+  - if flash[:alert]
+    .alert-error= flash[:alert]
+
+  .page-sections
+    .form-grid
+      .panel
+        .detail-list
+          .field-group
+            %p.field-label= t("products.index.sku")
+            %p= @presenter.sku
+          .field-group
+            %p.field-label= t("products.index.category")
+            %p= @presenter.category_name
+          .field-group
+            %p.field-label= t("products.index.unit")
+            %p= @presenter.unit_label
+          .field-group
+            %p.field-label= t(".cost_price")
+            %p= @presenter.cost_price_formatted
+          .field-group
+            %p.field-label= t(".selling_price")
+            %p= @presenter.selling_price_formatted
+          .field-group
+            %p.field-label= t(".current_stock")
+            %span{class: @presenter.stock_badge_classes}= @presenter.stock_quantity_formatted
+
+      .panel
+        .panel-header
+          %h2.panel-title= t(".record_movement")
+        = form_with url: product_stock_movements_path(@product), class: "space-y-5" do |form|
+          = request_uuid_field
+          .field-group
+            = label_tag :movement_type, t("stock_movements.form.movement_type_label"), class: "field-label"
+            = select_tag :movement_type, options_for_select(StockMovement.movement_types.keys.map { |type| [t("stock_movements.types.#{type}"), type] }), class: "select-input"
+          .field-group
+            = label_tag :quantity, t("stock_movements.form.quantity_label"), class: "field-label"
+            = number_field_tag :quantity, nil, required: true, min: 0.01, step: "0.01", class: "field-input"
+          .field-group
+            = label_tag :note, t("stock_movements.form.note_label"), class: "field-label"
+            = text_field_tag :note, nil, class: "field-input"
+          = submit_tag t("stock_movements.form.submit"), class: "btn-submit"
+
+    .panel
+      .panel-header
+        %h2.panel-title= t(".movement_history")
+
+      - if @movement_presenters.empty?
+        .empty-state= t(".no_movements")
+      - else
+        .table-container
+          %table.data-table
+            %thead.data-table-head
+              %tr
+                %th.data-table-head-cell= t("stock_movements.index.date")
+                %th.data-table-head-cell= t("stock_movements.index.type")
+                %th.data-table-head-cell= t("stock_movements.index.quantity")
+                %th.data-table-head-cell= t("stock_movements.index.note")
+                %th.data-table-head-cell= t("stock_movements.index.by")
+            %tbody
+              - @movement_presenters.each do |movement|
+                %tr.data-table-row
+                  %td.data-table-cell= movement.occurred_at
+                  %td.data-table-cell
+                    %span{class: movement.type_badge_classes}= movement.type_label
+                  %td.data-table-cell= movement.quantity_formatted
+                  %td.data-table-cell= movement.note
+                  %td.data-table-cell= movement.user_email

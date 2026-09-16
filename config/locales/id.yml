@@ -49,3 +49,84 @@ id:
       heading: "Dashboard"
       subheading: "Modul inventory, procurement, dan sales akan tampil di sini."
       sign_out: "Keluar"
+  units:
+    pcs: "pcs"
+    kg: "kg"
+    box: "box"
+  categories:
+    index:
+      heading: "Kategori"
+      add: "Tambah kategori"
+      empty: "Belum ada kategori."
+      name: "Nama"
+      edit: "Ubah"
+      new_heading: "Kategori baru"
+      edit_heading: "Ubah kategori"
+    create:
+      notice: "Kategori berhasil dibuat."
+    update:
+      notice: "Kategori berhasil diperbarui."
+    form:
+      name_label: "Nama"
+      submit: "Simpan kategori"
+      cancel: "Batal"
+  products:
+    index:
+      heading: "Produk"
+      add: "Tambah produk"
+      manage_categories: "Kelola kategori"
+      empty: "Belum ada produk."
+      name: "Nama"
+      sku: "SKU"
+      category: "Kategori"
+      unit: "Satuan"
+      cost_price: "Harga beli"
+      selling_price: "Harga jual"
+      stock: "Stok"
+    new:
+      heading: "Produk baru"
+    edit:
+      heading: "Ubah produk"
+    show:
+      record_movement: "Catat pergerakan"
+      edit: "Ubah produk"
+      cost_price: "Harga beli"
+      selling_price: "Harga jual"
+      current_stock: "Stok saat ini"
+      movement_history: "Riwayat pergerakan"
+      no_movements: "Belum ada pergerakan stok."
+    create:
+      notice: "Produk berhasil dibuat."
+    update:
+      notice: "Produk berhasil diperbarui."
+    form:
+      name_label: "Nama"
+      sku_label: "SKU"
+      category_label: "Kategori"
+      unit_label: "Satuan"
+      cost_price_label: "Harga beli"
+      selling_price_label: "Harga jual"
+      submit: "Simpan produk"
+  stock_movements:
+    index:
+      heading: "Riwayat pergerakan stok"
+      empty: "Belum ada pergerakan stok."
+      product: "Produk"
+      type: "Tipe"
+      quantity: "Jumlah"
+      note: "Catatan"
+      by: "Oleh"
+      date: "Tanggal"
+    create:
+      notice: "Pergerakan stok tercatat."
+    form:
+      movement_type_label: "Tipe pergerakan"
+      quantity_label: "Jumlah"
+      note_label: "Catatan (opsional)"
+      submit: "Catat pergerakan"
+    types:
+      stock_in: "Masuk"
+      stock_out: "Keluar"
+    errors:
+      invalid_quantity: "Jumlah harus lebih dari nol."
+      insufficient_stock: "Stok tidak cukup untuk pergerakan ini."

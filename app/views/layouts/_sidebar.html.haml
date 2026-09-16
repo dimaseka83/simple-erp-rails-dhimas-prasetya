@@ -5,7 +5,7 @@
     %span.brand-mark= t("app_name")
 
   %nav.sidebar-nav
-    = link_to root_path, class: nav.dashboard_link_classes do
+    = link_to root_path, class: nav.link_classes(root_path) do
       %svg.nav-icon{xmlns: "http://www.w3.org/2000/svg", viewbox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width" => "1.8", "stroke-linecap" => "round", "stroke-linejoin" => "round"}
         %rect{x: "3", y: "3", width: "7", height: "9", rx: "1.5"}
         %rect{x: "14", y: "3", width: "7", height: "5", rx: "1.5"}
@@ -15,17 +15,15 @@
 
     .nav-group
       %p.nav-group-label= t("nav.inventory")
-      %span{class: nav.soon_item_classes}
+      = link_to products_path, class: nav.link_classes(products_path) do
         %svg.nav-icon{xmlns: "http://www.w3.org/2000/svg", viewbox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width" => "1.8", "stroke-linecap" => "round", "stroke-linejoin" => "round"}
           %path{d: "M21 8l-9-5-9 5 9 5 9-5z"}
           %path{d: "M3 8v8l9 5 9-5V8M12 13v8"}
         = t("nav.products")
-        %span{class: nav.soon_badge_classes}= t("nav.soon")
-      %span{class: nav.soon_item_classes}
+      = link_to stock_movements_path, class: nav.link_classes(stock_movements_path) do
         %svg.nav-icon{xmlns: "http://www.w3.org/2000/svg", viewbox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width" => "1.8", "stroke-linecap" => "round", "stroke-linejoin" => "round"}
           %path{d: "M3 12h4l3 8 4-16 3 8h4"}
         = t("nav.stock_movements")
-        %span{class: nav.soon_badge_classes}= t("nav.soon")
 
     .nav-group
       %p.nav-group-label= t("nav.procurement")
