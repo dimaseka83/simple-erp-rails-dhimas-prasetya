@@ -1,0 +1,36 @@
+.auth-page
+  .auth-texture{style: "background-image: radial-gradient(currentColor 1px, transparent 1px); background-size: 22px 22px;"}
+
+  .auth-card
+    .auth-card-header
+      %span.brand-mark= t("app_name")
+      %h1.auth-card-heading= t(".heading")
+      %p.auth-card-subtitle= t(".subheading")
+
+    - if flash[:alert]
+      .alert-error= flash[:alert]
+    - if flash[:notice]
+      .alert-notice= flash[:notice]
+
+    = form_with url: session_path, class: "auth-form" do |form|
+      = request_uuid_field
+      .field-group
+        = form.label :email_address, t(".email_label"), class: "field-label"
+        = form.email_field :email_address,
+          required: true, autofocus: true, autocomplete: "username",
+          value: params[:email_address], placeholder: t(".email_placeholder"),
+          class: "field-input"
+
+      .field-group
+        .field-row-between
+          = form.label :password, t(".password_label"), class: "field-label"
+          = link_to t(".forgot_password"), new_password_path, class: "link-accent"
+        = form.password_field :password,
+          required: true, autocomplete: "current-password", maxlength: 72, placeholder: t(".password_placeholder"),
+          class: "field-input"
+
+      %label.checkbox-row
+        = check_box_tag "remember_me", "1", false, class: "checkbox-input"
+        = t(".remember_me")
+
+      = form.submit t(".submit"), class: "btn-primary"

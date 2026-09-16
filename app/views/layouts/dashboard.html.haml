@@ -1,0 +1,10 @@
+!!!
+%html{lang: I18n.locale}
+  = render "layouts/head"
+  %body.app-body
+    = render "layouts/sidebar"
+
+    .app-content
+      = render "layouts/topbar"
+      %main
+        = yield

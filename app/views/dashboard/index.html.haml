@@ -1,0 +1,5 @@
+- content_for :title, t(".heading")
+
+.page-container
+  %p.page-meta= @presenter.signed_in_as
+  %p.page-subtitle= t(".subheading")

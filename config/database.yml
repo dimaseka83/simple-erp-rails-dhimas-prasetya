@@ -1,0 +1,42 @@
+# MySQL.
+#   gem install mysql2
+#
+#   Ensure the MySQL gem is defined in your Gemfile
+#   gem "mysql2"
+#
+default: &default
+  adapter: mysql2
+  encoding: utf8mb4
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: <%= ENV.fetch("MYSQL_HOST") { "127.0.0.1" } %>
+  port: <%= ENV.fetch("MYSQL_HOST_PORT") { 3306 } %>
+  username: <%= ENV.fetch("MYSQL_USERNAME") { "root" } %>
+  password: <%= ENV.fetch("MYSQL_PASSWORD") { "" } %>
+
+development:
+  <<: *default
+  database: <%= ENV.fetch("MYSQL_DATABASE") { "simple_erp" } %>_development
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test:
+  <<: *default
+  database: <%= ENV.fetch("MYSQL_DATABASE") { "simple_erp" } %>_test
+
+production:
+  primary:
+    <<: *default
+    database: <%= ENV.fetch("MYSQL_DATABASE") { "simple_erp" } %>_production
+  cache:
+    <<: *default
+    database: <%= ENV.fetch("MYSQL_DATABASE") { "simple_erp" } %>_production_cache
+    migrations_paths: db/cache_migrate
+  queue:
+    <<: *default
+    database: <%= ENV.fetch("MYSQL_DATABASE") { "simple_erp" } %>_production_queue
+    migrations_paths: db/queue_migrate
+  cable:
+    <<: *default
+    database: <%= ENV.fetch("MYSQL_DATABASE") { "simple_erp" } %>_production_cable
+    migrations_paths: db/cable_migrate

@@ -1,0 +1,234 @@
+@import "tailwindcss";
+
+@source "../views";
+@source "../javascript";
+
+/* Dark mode toggled via a `.dark` class on <html>, not OS preference. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-display: "Space Grotesk", sans-serif;
+  --font-sans: "IBM Plex Sans", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+
+  --color-ink: #10161f;
+  --color-ink-2: #1a2230;
+  --color-paper: #f1ece0;
+  --color-ink-text: #ede7d8;
+  --color-graphite: #3b3f45;
+  --color-amber: #c8842e;
+}
+
+/*
+ * Component classes: every visual element gets a semantic name here, so
+ * .haml files read as markup + component names, never raw Tailwind chains.
+ *
+ * Exception: `-translate-x-full` and `hidden` on #sidebar / #sidebar-backdrop
+ * stay as literal Tailwind utilities in the template, because app.js toggles
+ * those exact class names directly — that's the standard, intentional way
+ * JS-driven interactivity hooks into Tailwind, not leftover utility soup.
+ */
+@layer components {
+  /* Tailwind v4's @apply can't reference another @layer components class
+     (that needs @utility), so each variant is spelled out in full rather
+     than chained off a shared base — still one name per repeated pattern,
+     just flat. */
+  .btn-primary {
+    @apply inline-flex w-full cursor-pointer items-center justify-center rounded-md bg-amber px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-amber/90;
+  }
+  .btn-secondary {
+    @apply inline-flex cursor-pointer items-center justify-center rounded-md border border-stone-300 px-4 py-2.5 text-sm font-medium text-stone-700 transition-colors hover:bg-stone-50 dark:border-stone-700 dark:text-stone-300 dark:hover:bg-ink-2;
+  }
+
+  .field-label {
+    @apply block text-sm font-medium text-stone-700 dark:text-stone-300;
+  }
+  .field-input {
+    @apply w-full rounded-md border border-stone-300 bg-white px-3 py-2.5 text-stone-900 placeholder:text-stone-400 focus:border-amber focus:outline-none focus:ring-1 focus:ring-amber dark:border-stone-600 dark:bg-ink dark:text-white dark:placeholder:text-stone-500;
+  }
+
+  .alert-error {
+    @apply mt-6 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 dark:border-red-900 dark:bg-red-950 dark:text-red-400;
+  }
+  .alert-notice {
+    @apply mt-6 rounded-md border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-700 dark:border-emerald-900 dark:bg-emerald-950 dark:text-emerald-400;
+  }
+
+  .auth-page {
+    @apply relative flex min-h-screen items-center justify-center overflow-hidden bg-paper px-6 py-12 font-sans dark:bg-ink;
+  }
+  .auth-card {
+    @apply relative w-full max-w-md rounded-xl border border-stone-200 bg-white px-8 py-10 shadow-sm dark:border-stone-700 dark:bg-ink-2;
+  }
+  .auth-texture {
+    @apply pointer-events-none absolute inset-0 text-ink opacity-5 dark:text-ink-text dark:opacity-8;
+  }
+
+  .toolbar {
+    @apply flex items-center gap-3;
+  }
+
+  .nav-link-active {
+    @apply flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-amber transition-colors bg-amber/10;
+  }
+  .nav-link-inactive {
+    @apply flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-stone-600 transition-colors hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-ink;
+  }
+  .nav-link-soon {
+    @apply flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-stone-400 dark:text-stone-600;
+  }
+  .nav-badge {
+    @apply ml-auto rounded bg-stone-100 px-1.5 py-0.5 text-xs font-medium text-stone-400 dark:bg-ink dark:text-stone-600;
+  }
+  .nav-group-label {
+    @apply px-3 text-xs font-semibold uppercase tracking-wider text-stone-400 dark:text-stone-600;
+  }
+
+  .locale-link-active {
+    @apply px-2.5 py-1.5 text-xs font-medium transition-colors bg-amber text-white;
+  }
+  .locale-link-inactive {
+    @apply px-2.5 py-1.5 text-xs font-medium transition-colors bg-white text-stone-500 hover:bg-stone-50 dark:bg-ink-2 dark:text-stone-400 dark:hover:bg-ink;
+  }
+  .locale-switcher {
+    @apply flex overflow-hidden rounded-md border border-stone-300 text-xs font-medium dark:border-stone-700;
+  }
+
+  .brand-mark {
+    @apply font-display text-lg font-semibold tracking-tight text-ink dark:text-ink-text;
+  }
+
+  .auth-card-header {
+    @apply text-center;
+  }
+  .auth-card-heading {
+    @apply mt-4 text-2xl font-semibold text-stone-900 dark:text-white;
+  }
+  .auth-card-title {
+    @apply text-2xl font-semibold text-stone-900 dark:text-white;
+  }
+  .auth-card-subtitle {
+    @apply mt-1 text-sm text-stone-500 dark:text-stone-400;
+  }
+  .auth-form {
+    @apply mt-6 space-y-5;
+  }
+
+  .field-group {
+    @apply space-y-1;
+  }
+  .field-row-between {
+    @apply flex items-baseline justify-between;
+  }
+
+  .checkbox-row {
+    @apply flex items-center gap-2 text-sm text-stone-600 dark:text-stone-400;
+  }
+  .checkbox-input {
+    @apply size-4 rounded border-stone-300 text-amber focus:ring-amber dark:border-stone-600;
+  }
+
+  .link-accent {
+    @apply text-sm text-amber hover:underline;
+  }
+
+  .page-container {
+    @apply mx-auto max-w-3xl px-6 py-10;
+  }
+  .page-meta {
+    @apply font-mono text-xs tracking-wide text-stone-400 dark:text-stone-500;
+  }
+  .page-subtitle {
+    @apply mt-2 text-stone-500 dark:text-stone-400;
+  }
+
+  .app-body {
+    @apply dark:bg-ink;
+  }
+  .app-content {
+    @apply transition-all md:pl-64;
+  }
+
+  /* md:translate-x-0 / md:hidden live as literal utilities in the template
+     (not @apply'd here) alongside the JS-toggled -translate-x-full/hidden:
+     Tailwind v4's utilities layer always outranks @layer components, media
+     query or not, so a responsive override baked in here could never win
+     against a plain utility class on the same element. */
+  .sidebar {
+    @apply fixed inset-y-0 left-0 z-40 w-64 overflow-y-auto border-r border-stone-200 bg-white transition-transform duration-200 dark:border-stone-800 dark:bg-ink-2;
+  }
+  .sidebar-header {
+    @apply flex h-16 items-center px-6;
+  }
+  .sidebar-nav {
+    @apply space-y-6 px-4 pb-8;
+  }
+  .sidebar-backdrop {
+    @apply fixed inset-0 z-30 bg-black/30;
+  }
+  .nav-group {
+    @apply space-y-1;
+  }
+  .nav-icon {
+    @apply size-4 shrink-0;
+  }
+
+  .icon-sm {
+    @apply size-4;
+  }
+  .icon-md {
+    @apply size-5;
+  }
+  .theme-icon-dark {
+    @apply hidden dark:block;
+  }
+  .theme-icon-light {
+    @apply block dark:hidden;
+  }
+
+  .topbar {
+    @apply sticky top-0 z-20 flex h-16 items-center gap-4 border-b border-stone-200 bg-white/80 px-4 backdrop-blur md:px-6 dark:border-stone-800 dark:bg-ink-2/80;
+  }
+  .topbar-title {
+    @apply text-lg font-semibold text-stone-900 dark:text-white;
+  }
+  .topbar-actions {
+    @apply ml-auto flex items-center gap-4;
+  }
+  .sidebar-toggle-btn {
+    @apply grid size-9 place-items-center rounded-md text-stone-500 hover:bg-stone-100 md:hidden dark:text-stone-400 dark:hover:bg-ink;
+  }
+  .theme-toggle-btn {
+    @apply grid size-8 place-items-center rounded-md border border-stone-300 bg-white text-stone-500 hover:bg-stone-50 dark:border-stone-700 dark:bg-ink-2 dark:text-stone-400 dark:hover:bg-ink;
+  }
+
+  .floating-toolbar {
+    @apply fixed top-4 right-4 z-50;
+  }
+
+  .dropdown {
+    @apply relative [&_summary::-webkit-details-marker]:hidden;
+  }
+  .dropdown-trigger {
+    @apply flex cursor-pointer list-none items-center gap-2;
+  }
+  .dropdown-menu {
+    @apply absolute right-0 z-30 mt-2 w-56 rounded-md border border-stone-200 bg-white p-1 shadow-lg dark:border-stone-700 dark:bg-ink-2;
+  }
+  .dropdown-header {
+    @apply px-3 py-2 text-sm text-stone-500 dark:text-stone-400;
+  }
+  .dropdown-header-email {
+    @apply truncate font-medium text-stone-900 dark:text-white;
+  }
+  .dropdown-divider {
+    @apply my-1 border-stone-200 dark:border-stone-700;
+  }
+  .dropdown-item {
+    @apply w-full rounded-md px-3 py-2 text-left text-sm text-stone-600 hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-ink;
+  }
+
+  .avatar {
+    @apply grid size-8 place-items-center rounded-full bg-amber text-sm font-semibold text-white;
+  }
+}

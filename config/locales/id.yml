@@ -1,0 +1,51 @@
+id:
+  app_name: "Simple ERP"
+  sessions:
+    create:
+      invalid_credentials: "Email atau kata sandi salah."
+      rate_limited: "Coba lagi nanti."
+    new:
+      heading: "Masuk ke akun"
+      subheading: "Khusus staf dengan akun terdaftar."
+      email_label: "Email"
+      email_placeholder: "nama@perusahaan.com"
+      password_label: "Kata sandi"
+      password_placeholder: "Masukkan kata sandi"
+      forgot_password: "Lupa kata sandi?"
+      remember_me: "Ingat saya"
+      submit: "Masuk"
+  passwords:
+    invalid_token: "Tautan reset kata sandi tidak valid atau sudah kedaluwarsa."
+    create:
+      rate_limited: "Coba lagi nanti."
+      notice: "Instruksi reset kata sandi telah dikirim (jika email terdaftar)."
+    update:
+      notice: "Kata sandi berhasil diperbarui."
+      mismatch: "Kata sandi tidak cocok."
+    new:
+      heading: "Lupa kata sandi?"
+      submit: "Kirim instruksi reset"
+    edit:
+      heading: "Perbarui kata sandi"
+      password_placeholder: "Masukkan kata sandi baru"
+      password_confirmation_placeholder: "Ulangi kata sandi baru"
+      submit: "Simpan"
+  nav:
+    dashboard: "Dashboard"
+    inventory: "Inventaris"
+    products: "Produk"
+    stock_movements: "Riwayat stok"
+    procurement: "Pembelian"
+    suppliers: "Supplier"
+    purchase_orders: "Purchase order"
+    sales: "Penjualan"
+    customers: "Pelanggan"
+    sales_orders: "Sales order"
+    soon: "Segera"
+    sign_out: "Keluar"
+  dashboard:
+    index:
+      signed_in_as: "Masuk sebagai %{email}"
+      heading: "Dashboard"
+      subheading: "Modul inventory, procurement, dan sales akan tampil di sini."
+      sign_out: "Keluar"

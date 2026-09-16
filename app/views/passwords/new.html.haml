@@ -1,0 +1,13 @@
+.auth-page
+  .auth-card
+    %h1.auth-card-title= t(".heading")
+
+    - if flash[:alert]
+      .alert-error= flash[:alert]
+
+    = form_with url: passwords_path, class: "auth-form" do |form|
+      = request_uuid_field
+      = form.email_field :email_address, required: true, autofocus: true, autocomplete: "username",
+        placeholder: t("sessions.new.email_placeholder"), value: params[:email_address],
+        class: "field-input"
+      = form.submit t(".submit"), class: "btn-primary"
