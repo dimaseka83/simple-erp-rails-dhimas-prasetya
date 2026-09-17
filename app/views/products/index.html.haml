@@ -11,7 +11,9 @@
     .alert-notice= flash[:notice]
 
   - if @presenter_list.empty?
-    .empty-state= t(".empty")
+    .empty-state
+      %p= t(".empty")
+      = link_to t(".add"), new_product_path, class: "empty-state-action"
   - else
     .table-container
       %table.data-table
@@ -21,18 +23,17 @@
             %th.data-table-head-cell= t(".sku")
             %th.data-table-head-cell= t(".category")
             %th.data-table-head-cell= t(".unit")
-            %th.data-table-head-cell= t(".selling_price")
-            %th.data-table-head-cell= t(".stock")
+            %th.data-table-head-cell-numeric= t(".selling_price")
+            %th.data-table-head-cell-numeric= t(".stock")
             %th.data-table-head-cell
         %tbody
           - @presenter_list.each do |product|
             %tr.data-table-row
               %td.data-table-cell-primary= link_to product.name, product.path, class: "hover:underline"
-              %td.data-table-cell= product.sku
+              %td.data-table-cell-code= product.sku
               %td.data-table-cell= product.category_name
               %td.data-table-cell= product.unit_label
-              %td.data-table-cell= product.selling_price_formatted
-              %td.data-table-cell
-                %span{class: product.stock_badge_classes}
-                  = product.stock_quantity_formatted
+              %td.data-table-cell-numeric= product.selling_price_formatted
+              %td{class: "data-table-cell-numeric #{product.stock_text_classes}"}
+                = product.stock_quantity_formatted
               %td.data-table-cell= link_to t("categories.index.edit"), product.edit_path, class: "link-accent"

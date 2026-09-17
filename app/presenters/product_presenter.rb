@@ -38,12 +38,16 @@ class ProductPresenter < ApplicationPresenter
     view.number_with_delimiter(@product.stock_quantity.to_i)
   end
 
-  def low_stock?
-    @product.stock_quantity <= LOW_STOCK_THRESHOLD
-  end
-
-  def stock_badge_classes
-    low_stock? ? "badge-low-stock" : "badge-ok-stock"
+  # Stock level is shown as colored mono text, not a badge pill — the
+  # color itself carries the status (out/low/ok), see design.md §5.
+  def stock_text_classes
+    if @product.stock_quantity <= 0
+      "stock-danger"
+    elsif @product.stock_quantity <= LOW_STOCK_THRESHOLD
+      "stock-warn"
+    else
+      "stock-accent"
+    end
   end
 
   def path

@@ -14,7 +14,7 @@
             %th.data-table-head-cell= t(".date")
             %th.data-table-head-cell= t(".product")
             %th.data-table-head-cell= t(".type")
-            %th.data-table-head-cell= t(".quantity")
+            %th.data-table-head-cell-numeric= t(".quantity")
             %th.data-table-head-cell= t(".note")
             %th.data-table-head-cell= t(".by")
         %tbody
@@ -24,6 +24,6 @@
               %td.data-table-cell-primary= movement.product_name
               %td.data-table-cell
                 %span{class: movement.type_badge_classes}= movement.type_label
-              %td.data-table-cell= movement.quantity_formatted
+              %td.data-table-cell-numeric= movement.quantity_formatted
               %td.data-table-cell= movement.note
               %td.data-table-cell= movement.user_email

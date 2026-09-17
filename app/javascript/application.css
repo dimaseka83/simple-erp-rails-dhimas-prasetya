@@ -7,16 +7,34 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-display: "Space Grotesk", sans-serif;
   --font-sans: "IBM Plex Sans", sans-serif;
   --font-mono: "IBM Plex Mono", monospace;
 
-  --color-ink: #10161f;
-  --color-ink-2: #1a2230;
-  --color-paper: #f1ece0;
-  --color-ink-text: #ede7d8;
-  --color-graphite: #3b3f45;
-  --color-amber: #c8842e;
+  --color-bg: #f5f6f5;
+  --color-surface: #ffffff;
+  --color-ink: #1e2a2f;
+  --color-ink-muted: #5c6b70;
+  --color-line: #d8dddd;
+  --color-accent: #2f6f5e;
+  --color-warn: #b5772e;
+  --color-danger: #b23a34;
+}
+
+/* Same tokens, shifted lightness/saturation for dark — not a flat invert.
+   These are plain (unlayered) declarations, so they always win over the
+   @theme defaults above once .dark lands on <html>: unlayered CSS outranks
+   any @layer content regardless of selector specificity. Every component
+   below just reads bg-surface/text-ink/border-line/etc with no dark:
+   variant needed — the variable swap does the work. */
+:root.dark {
+  --color-bg: #14181a;
+  --color-surface: #1d2224;
+  --color-ink: #e7eaea;
+  --color-ink-muted: #93a0a3;
+  --color-line: #2b3335;
+  --color-accent: #4c9c82;
+  --color-warn: #d99145;
+  --color-danger: #d65f58;
 }
 
 /*
@@ -29,44 +47,37 @@
  * JS-driven interactivity hooks into Tailwind, not leftover utility soup.
  */
 @layer components {
-  /* Tailwind v4's @apply can't reference another @layer components class
-     (that needs @utility), so each variant is spelled out in full rather
-     than chained off a shared base — still one name per repeated pattern,
-     just flat. */
   .btn-primary {
-    @apply inline-flex w-full cursor-pointer items-center justify-center rounded-md bg-amber px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-amber/90;
+    @apply inline-flex w-full cursor-pointer items-center justify-center rounded bg-accent px-4 py-2.5 text-sm font-medium text-white transition-colors hover:opacity-90;
   }
   .btn-secondary {
-    @apply inline-flex cursor-pointer items-center justify-center rounded-md border border-stone-300 px-4 py-2.5 text-sm font-medium text-stone-700 transition-colors hover:bg-stone-50 dark:border-stone-700 dark:text-stone-300 dark:hover:bg-ink-2;
+    @apply inline-flex cursor-pointer items-center justify-center rounded border border-line px-4 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-bg;
   }
   /* Same look as .btn-primary but auto-width, for inline form-action rows
      rather than a lone full-width auth submit. */
   .btn-submit {
-    @apply inline-flex cursor-pointer items-center justify-center rounded-md bg-amber px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-amber/90;
+    @apply inline-flex cursor-pointer items-center justify-center rounded bg-accent px-4 py-2.5 text-sm font-medium text-white transition-colors hover:opacity-90;
   }
 
   .field-label {
-    @apply block text-sm font-medium text-stone-700 dark:text-stone-300;
+    @apply block text-sm font-medium text-ink;
   }
   .field-input {
-    @apply w-full rounded-md border border-stone-300 bg-white px-3 py-2.5 text-stone-900 placeholder:text-stone-400 focus:border-amber focus:outline-none focus:ring-1 focus:ring-amber dark:border-stone-600 dark:bg-ink dark:text-white dark:placeholder:text-stone-500;
+    @apply w-full rounded border border-line bg-surface px-3 py-2.5 text-ink placeholder:text-ink-muted focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent;
   }
 
   .alert-error {
-    @apply mt-6 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 dark:border-red-900 dark:bg-red-950 dark:text-red-400;
+    @apply mt-6 rounded border border-danger/30 bg-danger/10 px-3 py-2 text-sm text-danger;
   }
   .alert-notice {
-    @apply mt-6 rounded-md border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-700 dark:border-emerald-900 dark:bg-emerald-950 dark:text-emerald-400;
+    @apply mt-6 rounded border border-accent/30 bg-accent/10 px-3 py-2 text-sm text-accent;
   }
 
   .auth-page {
-    @apply relative flex min-h-screen items-center justify-center overflow-hidden bg-paper px-6 py-12 font-sans dark:bg-ink;
+    @apply relative flex min-h-screen items-center justify-center bg-bg px-6 py-12 font-sans;
   }
   .auth-card {
-    @apply relative w-full max-w-md rounded-xl border border-stone-200 bg-white px-8 py-10 shadow-sm dark:border-stone-700 dark:bg-ink-2;
-  }
-  .auth-texture {
-    @apply pointer-events-none absolute inset-0 text-ink opacity-5 dark:text-ink-text dark:opacity-8;
+    @apply relative w-full max-w-md rounded border border-line bg-surface px-8 py-10;
   }
 
   .toolbar {
@@ -74,46 +85,46 @@
   }
 
   .nav-link-active {
-    @apply flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-amber transition-colors bg-amber/10;
+    @apply flex items-center gap-3 rounded px-3 py-2 text-sm font-medium text-accent transition-colors bg-accent/10;
   }
   .nav-link-inactive {
-    @apply flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-stone-600 transition-colors hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-ink;
+    @apply flex items-center gap-3 rounded px-3 py-2 text-sm font-medium text-ink-muted transition-colors hover:bg-bg;
   }
   .nav-link-soon {
-    @apply flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-stone-400 dark:text-stone-600;
+    @apply flex items-center gap-3 rounded px-3 py-2 text-sm font-medium text-ink-muted opacity-50;
   }
   .nav-badge {
-    @apply ml-auto rounded bg-stone-100 px-1.5 py-0.5 text-xs font-medium text-stone-400 dark:bg-ink dark:text-stone-600;
+    @apply ml-auto rounded bg-bg px-1.5 py-0.5 text-xs font-medium text-ink-muted;
   }
   .nav-group-label {
-    @apply px-3 text-xs font-semibold uppercase tracking-wider text-stone-400 dark:text-stone-600;
+    @apply px-3 text-xs font-semibold uppercase tracking-wider text-ink-muted;
   }
 
   .locale-link-active {
-    @apply px-2.5 py-1.5 text-xs font-medium transition-colors bg-amber text-white;
+    @apply px-2.5 py-1.5 text-xs font-medium transition-colors bg-accent text-white;
   }
   .locale-link-inactive {
-    @apply px-2.5 py-1.5 text-xs font-medium transition-colors bg-white text-stone-500 hover:bg-stone-50 dark:bg-ink-2 dark:text-stone-400 dark:hover:bg-ink;
+    @apply px-2.5 py-1.5 text-xs font-medium transition-colors bg-surface text-ink-muted hover:bg-bg;
   }
   .locale-switcher {
-    @apply flex overflow-hidden rounded-md border border-stone-300 text-xs font-medium dark:border-stone-700;
+    @apply flex overflow-hidden rounded border border-line text-xs font-medium;
   }
 
   .brand-mark {
-    @apply font-display text-lg font-semibold tracking-tight text-ink dark:text-ink-text;
+    @apply text-lg font-semibold tracking-tight text-ink;
   }
 
   .auth-card-header {
     @apply text-center;
   }
   .auth-card-heading {
-    @apply mt-4 text-2xl font-semibold text-stone-900 dark:text-white;
+    @apply mt-4 text-2xl font-semibold text-ink;
   }
   .auth-card-title {
-    @apply text-2xl font-semibold text-stone-900 dark:text-white;
+    @apply text-2xl font-semibold text-ink;
   }
   .auth-card-subtitle {
-    @apply mt-1 text-sm text-stone-500 dark:text-stone-400;
+    @apply mt-1 text-sm text-ink-muted;
   }
   .auth-form {
     @apply mt-6 space-y-5;
@@ -127,28 +138,28 @@
   }
 
   .checkbox-row {
-    @apply flex items-center gap-2 text-sm text-stone-600 dark:text-stone-400;
+    @apply flex items-center gap-2 text-sm text-ink-muted;
   }
   .checkbox-input {
-    @apply size-4 rounded border-stone-300 text-amber focus:ring-amber dark:border-stone-600;
+    @apply size-4 rounded border-line text-accent focus:ring-accent;
   }
 
   .link-accent {
-    @apply text-sm text-amber hover:underline;
+    @apply text-sm text-accent hover:underline;
   }
 
   .page-container {
     @apply mx-auto max-w-3xl px-6 py-10;
   }
   .page-meta {
-    @apply font-mono text-xs tracking-wide text-stone-400 dark:text-stone-500;
+    @apply font-mono text-xs tracking-wide text-ink-muted;
   }
   .page-subtitle {
-    @apply mt-2 text-stone-500 dark:text-stone-400;
+    @apply mt-2 text-ink-muted;
   }
 
   .app-body {
-    @apply dark:bg-ink;
+    @apply bg-bg;
   }
   .app-content {
     @apply transition-all md:pl-64;
@@ -160,7 +171,7 @@
      query or not, so a responsive override baked in here could never win
      against a plain utility class on the same element. */
   .sidebar {
-    @apply fixed inset-y-0 left-0 z-40 w-64 overflow-y-auto border-r border-stone-200 bg-white transition-transform duration-200 dark:border-stone-800 dark:bg-ink-2;
+    @apply fixed inset-y-0 left-0 z-40 w-64 overflow-y-auto border-r border-line bg-surface transition-transform duration-200;
   }
   .sidebar-header {
     @apply flex h-16 items-center px-6;
@@ -169,7 +180,7 @@
     @apply space-y-6 px-4 pb-8;
   }
   .sidebar-backdrop {
-    @apply fixed inset-0 z-30 bg-black/30;
+    @apply fixed inset-0 z-30 bg-ink/30;
   }
   .nav-group {
     @apply space-y-1;
@@ -192,19 +203,19 @@
   }
 
   .topbar {
-    @apply sticky top-0 z-20 flex h-16 items-center gap-4 border-b border-stone-200 bg-white/80 px-4 backdrop-blur md:px-6 dark:border-stone-800 dark:bg-ink-2/80;
+    @apply sticky top-0 z-20 flex h-16 items-center gap-4 border-b border-line bg-surface/90 px-4 backdrop-blur md:px-6;
   }
   .topbar-title {
-    @apply text-lg font-semibold text-stone-900 dark:text-white;
+    @apply text-lg font-semibold text-ink;
   }
   .topbar-actions {
     @apply ml-auto flex items-center gap-4;
   }
   .sidebar-toggle-btn {
-    @apply grid size-9 place-items-center rounded-md text-stone-500 hover:bg-stone-100 md:hidden dark:text-stone-400 dark:hover:bg-ink;
+    @apply grid size-9 place-items-center rounded text-ink-muted hover:bg-bg md:hidden;
   }
   .theme-toggle-btn {
-    @apply grid size-8 place-items-center rounded-md border border-stone-300 bg-white text-stone-500 hover:bg-stone-50 dark:border-stone-700 dark:bg-ink-2 dark:text-stone-400 dark:hover:bg-ink;
+    @apply grid size-8 place-items-center rounded border border-line bg-surface text-ink-muted hover:bg-bg;
   }
 
   .floating-toolbar {
@@ -218,23 +229,23 @@
     @apply flex cursor-pointer list-none items-center gap-2;
   }
   .dropdown-menu {
-    @apply absolute right-0 z-30 mt-2 w-56 rounded-md border border-stone-200 bg-white p-1 shadow-lg dark:border-stone-700 dark:bg-ink-2;
+    @apply absolute right-0 z-30 mt-2 w-56 rounded border border-line bg-surface p-1;
   }
   .dropdown-header {
-    @apply px-3 py-2 text-sm text-stone-500 dark:text-stone-400;
+    @apply px-3 py-2 text-sm text-ink-muted;
   }
   .dropdown-header-email {
-    @apply truncate font-medium text-stone-900 dark:text-white;
+    @apply truncate font-medium text-ink;
   }
   .dropdown-divider {
-    @apply my-1 border-stone-200 dark:border-stone-700;
+    @apply my-1 border-line;
   }
   .dropdown-item {
-    @apply w-full rounded-md px-3 py-2 text-left text-sm text-stone-600 hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-ink;
+    @apply w-full rounded px-3 py-2 text-left text-sm text-ink-muted hover:bg-bg;
   }
 
   .avatar {
-    @apply grid size-8 place-items-center rounded-full bg-amber text-sm font-semibold text-white;
+    @apply grid size-8 place-items-center rounded-full bg-accent text-sm font-semibold text-white;
   }
 
   .page-container-wide {
@@ -244,21 +255,21 @@
     @apply mb-6 flex items-center justify-between gap-4;
   }
   .page-title {
-    @apply text-xl font-semibold text-stone-900 dark:text-white;
+    @apply text-xl font-semibold text-ink;
   }
 
   .panel {
-    @apply rounded-xl border border-stone-200 bg-white p-6 shadow-sm dark:border-stone-700 dark:bg-ink-2;
+    @apply rounded border border-line bg-surface p-6;
   }
   .panel-header {
     @apply mb-4 flex items-center justify-between gap-4;
   }
   .panel-title {
-    @apply text-base font-semibold text-stone-900 dark:text-white;
+    @apply text-base font-semibold text-ink;
   }
 
   .select-input {
-    @apply w-full rounded-md border border-stone-300 bg-white px-3 py-2.5 text-stone-900 focus:border-amber focus:outline-none focus:ring-1 focus:ring-amber dark:border-stone-600 dark:bg-ink dark:text-white;
+    @apply w-full rounded border border-line bg-surface px-3 py-2.5 text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent;
   }
 
   .form-grid {
@@ -269,46 +280,76 @@
   }
 
   .table-container {
-    @apply overflow-x-auto rounded-xl border border-stone-200 dark:border-stone-700;
+    @apply overflow-x-auto rounded border border-line;
   }
   .data-table {
     @apply w-full text-left text-sm;
   }
   .data-table-head {
-    @apply bg-stone-50 text-xs font-semibold uppercase tracking-wider text-stone-400 dark:bg-ink dark:text-stone-600;
+    @apply bg-bg text-xs font-semibold uppercase tracking-wider text-ink-muted;
   }
   .data-table-head-cell {
     @apply px-4 py-3;
   }
+  .data-table-head-cell-numeric {
+    @apply px-4 py-3 text-right;
+  }
   .data-table-row {
-    @apply border-t border-stone-100 dark:border-stone-800;
+    @apply border-t border-line;
   }
   .data-table-cell {
-    @apply px-4 py-3 text-stone-700 dark:text-stone-300;
+    @apply px-4 py-3 text-ink-muted;
   }
   .data-table-cell-primary {
-    @apply px-4 py-3 font-medium text-stone-900 dark:text-white;
+    @apply px-4 py-3 font-medium text-ink;
+  }
+  .data-table-cell-numeric {
+    @apply px-4 py-3 text-right font-mono tabular-nums text-ink;
+  }
+  .data-table-cell-code {
+    @apply px-4 py-3 font-mono text-ink-muted;
   }
 
-  .badge-in {
-    @apply inline-flex rounded px-2 py-0.5 text-xs font-medium bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400;
+  /* Status badges: three semantic colors only (accent/warn/danger), never
+     decorative per-row color — see design.md §5. Each variant is spelled
+     out in full since @apply can't reference another @layer components
+     class (that needs @utility). */
+  .badge-accent {
+    @apply inline-flex rounded px-2 py-0.5 text-xs font-medium bg-accent/10 text-accent;
   }
-  .badge-out {
-    @apply inline-flex rounded px-2 py-0.5 text-xs font-medium bg-red-50 text-red-700 dark:bg-red-950 dark:text-red-400;
+  .badge-warn {
+    @apply inline-flex rounded px-2 py-0.5 text-xs font-medium bg-warn/10 text-warn;
   }
-  .badge-low-stock {
-    @apply inline-flex rounded px-2 py-0.5 text-xs font-medium bg-amber/10 text-amber;
+  .badge-danger {
+    @apply inline-flex rounded px-2 py-0.5 text-xs font-medium bg-danger/10 text-danger;
   }
-  .badge-ok-stock {
-    @apply inline-flex rounded px-2 py-0.5 text-xs font-medium bg-stone-100 text-stone-500 dark:bg-ink dark:text-stone-400;
+  .badge-neutral {
+    @apply inline-flex rounded px-2 py-0.5 text-xs font-medium bg-bg text-ink-muted;
+  }
+
+  /* Stock quantity is colored mono text, not a pill — see design.md §5. */
+  .stock-accent {
+    @apply font-mono tabular-nums text-accent;
+  }
+  .stock-warn {
+    @apply font-mono tabular-nums text-warn;
+  }
+  .stock-danger {
+    @apply font-mono tabular-nums text-danger;
   }
 
   .empty-state {
-    @apply py-12 text-center text-sm text-stone-400 dark:text-stone-600;
+    @apply py-12 text-center text-sm text-ink-muted;
+  }
+  .empty-state-action {
+    @apply mt-2 inline-block text-accent hover:underline;
   }
 
   .detail-list {
     @apply space-y-4;
+  }
+  .detail-value-code {
+    @apply font-mono text-ink;
   }
   .page-sections {
     @apply space-y-8;
@@ -319,9 +360,9 @@
   }
 
   .mobile-add-bar {
-    @apply fixed inset-x-0 bottom-0 z-30 flex justify-center border-t border-stone-200 bg-white/90 p-4 backdrop-blur md:hidden dark:border-stone-800 dark:bg-ink-2/90;
+    @apply fixed inset-x-0 bottom-0 z-30 flex justify-center border-t border-line bg-surface/90 p-4 backdrop-blur md:hidden;
   }
   .mobile-add-button {
-    @apply grid size-12 place-items-center rounded-full bg-amber text-white shadow-lg;
+    @apply grid size-12 place-items-center rounded-full bg-accent text-white;
   }
 }

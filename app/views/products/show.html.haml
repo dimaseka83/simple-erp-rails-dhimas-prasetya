@@ -16,7 +16,7 @@
         .detail-list
           .field-group
             %p.field-label= t("products.index.sku")
-            %p= @presenter.sku
+            %p.detail-value-code= @presenter.sku
           .field-group
             %p.field-label= t("products.index.category")
             %p= @presenter.category_name
@@ -25,13 +25,13 @@
             %p= @presenter.unit_label
           .field-group
             %p.field-label= t(".cost_price")
-            %p= @presenter.cost_price_formatted
+            %p.detail-value-code= @presenter.cost_price_formatted
           .field-group
             %p.field-label= t(".selling_price")
-            %p= @presenter.selling_price_formatted
+            %p.detail-value-code= @presenter.selling_price_formatted
           .field-group
             %p.field-label= t(".current_stock")
-            %span{class: @presenter.stock_badge_classes}= @presenter.stock_quantity_formatted
+            %p{class: @presenter.stock_text_classes}= @presenter.stock_quantity_formatted
 
       .panel
         .panel-header
@@ -62,7 +62,7 @@
               %tr
                 %th.data-table-head-cell= t("stock_movements.index.date")
                 %th.data-table-head-cell= t("stock_movements.index.type")
-                %th.data-table-head-cell= t("stock_movements.index.quantity")
+                %th.data-table-head-cell-numeric= t("stock_movements.index.quantity")
                 %th.data-table-head-cell= t("stock_movements.index.note")
                 %th.data-table-head-cell= t("stock_movements.index.by")
             %tbody
@@ -71,6 +71,6 @@
                   %td.data-table-cell= movement.occurred_at
                   %td.data-table-cell
                     %span{class: movement.type_badge_classes}= movement.type_label
-                  %td.data-table-cell= movement.quantity_formatted
+                  %td.data-table-cell-numeric= movement.quantity_formatted
                   %td.data-table-cell= movement.note
                   %td.data-table-cell= movement.user_email
