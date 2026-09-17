@@ -1,0 +1,48 @@
+- content_for :title, "SO ##{@sales_order_presenter.id}"
+
+.page__container--wide
+  .page__header
+    %h1.page__title= "SO ##{@sales_order_presenter.id}"
+    .toolbar
+      - if @sales_order_presenter.draft?
+        = link_to t(".edit"), @sales_order_presenter.edit_path, class: "btn--secondary"
+        = button_to t(".confirm"), confirm_sales_order_path(@sales_order_presenter.id), method: :patch, class: "btn--submit"
+      - else
+        = link_to t(".invoice"), @sales_order_presenter.invoice_path, class: "btn--secondary"
+
+  - if flash[:notice]
+    .alert--notice= flash[:notice]
+  - if flash[:alert]
+    .alert--error= flash[:alert]
+
+  .detail-strip
+    .detail-strip__item
+      %p.field__label= t(".customer")
+      %p= @sales_order_presenter.customer_name
+    .detail-strip__item
+      %p.field__label= t(".status")
+      %span{class: @sales_order_presenter.status_badge_classes}= @sales_order_presenter.status_label
+    .detail-strip__item
+      %p.field__label= t(".date")
+      %p= @sales_order_presenter.date_formatted
+
+  %h2.section-title= t(".items")
+  .table__container
+    %table.table
+      %thead.table__head
+        %tr
+          %th.table__head-cell= t(".product")
+          %th.table__head-cell--numeric= t(".quantity")
+          %th.table__head-cell--numeric= t(".unit_price")
+          %th.table__head-cell--numeric= t(".subtotal")
+      %tbody
+        - @sales_order_presenter.item_rows.each do |item|
+          %tr.table__row
+            %td.table__cell--primary= item[:product_name]
+            %td.table__cell--numeric= item[:quantity]
+            %td.table__cell--numeric= item[:unit_price_formatted]
+            %td.table__cell--numeric= item[:subtotal_formatted]
+      %tfoot
+        %tr.table__row
+          %td.table__cell{colspan: 3}
+          %td.table__cell--numeric= @sales_order_presenter.total_formatted

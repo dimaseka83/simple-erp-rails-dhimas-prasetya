@@ -1,0 +1,35 @@
+- content_for :title, "#{t('.heading')} SO ##{@sales_order_presenter.id}"
+
+.invoice__header
+  %div
+    %h1.page__title= t(".heading")
+    %p.field__label= "SO ##{@sales_order_presenter.id}"
+  %button.btn--submit.no-print{type: "button", onclick: "window.print()"}= t(".print")
+
+.invoice__meta
+  %div
+    %p.field__label= t(".billed_to")
+    %p= @sales_order_presenter.customer_name
+  %div
+    %p.field__label= t(".date")
+    %p= @sales_order_presenter.date_formatted
+
+.table__container
+  %table.table
+    %thead.table__head
+      %tr
+        %th.table__head-cell= t(".product")
+        %th.table__head-cell--numeric= t(".quantity")
+        %th.table__head-cell--numeric= t(".unit_price")
+        %th.table__head-cell--numeric= t(".subtotal")
+    %tbody
+      - @sales_order_presenter.item_rows.each do |item|
+        %tr.table__row
+          %td.table__cell--primary= item[:product_name]
+          %td.table__cell--numeric= item[:quantity]
+          %td.table__cell--numeric= item[:unit_price_formatted]
+          %td.table__cell--numeric= item[:subtotal_formatted]
+
+.invoice__total
+  %span= t(".total")
+  %span= @sales_order_presenter.total_formatted

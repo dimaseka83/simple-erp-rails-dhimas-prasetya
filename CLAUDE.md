@@ -71,6 +71,28 @@ Model/DB → Service/Manager → Controller → Presenter → HAML (pure HTML)
   - query database langsung dari view
 - Kalau ketemu logic yang "ribet" di HAML, itu tanda harus dipindah jadi method baru di Presenter, dipanggil lewat `@presenter.method_baru`.
 
+## Form Kompleks dengan Vue.js
+
+- Vue.js dipakai HANYA untuk form yang butuh interaktivitas signifikan (baris dinamis, kalkulasi real-time, dependent select) — form sederhana tetap pakai HAML + Rails form helper biasa (YAGNI, jangan pakai Vue kalau HAML polos sudah cukup).
+- **Data masuk ke Vue (initial/show data)**: pakai gem `gon`. Controller push data di action yang relevan:
+  ```ruby
+  def new
+    @purchase_order = PurchaseOrder.new
+    @presenter = PurchaseOrderPresenter.new(@purchase_order)
+    gon.suppliers = @presenter.supplier_options
+    gon.products = @presenter.product_options
+  end
+  ```
+  Vue component akses lewat `window.gon.suppliers`, dst. Jangan fetch ulang data yang sama lewat AJAX kalau sudah tersedia di initial load.
+- **Data keluar dari Vue (submit/post)**: tetap pakai form standard Rails — nama input di Vue harus mengikuti konvensi nested params Rails biasa, BUKAN kirim JSON custom ke endpoint terpisah:
+  ```html
+  <input type="hidden" name="purchase_order[supplier_id]" :value="supplierId">
+  <input type="hidden" name="purchase_order[purchase_order_items_attributes][0][product_id]" :value="item.productId">
+  ```
+  Supaya controller tetap terima params standar (`params.require(:purchase_order).permit(...)`) tanpa endpoint API/controller terpisah khusus Vue.
+- **DRY**: shape data yang di-push ke `gon` (misal `supplier_options`, `product_options`) ambil dari method presenter yang sama yang dipakai form HAML biasa di halaman lain — jangan duplikat logic query/format data cuma karena satu dipakai Vue satu dipakai HAML polos.
+- Vue component ditaruh di `app/javascript/components/`, satu file per form kompleks, dinamai sesuai form-nya (`PurchaseOrderForm.vue`, bukan generik `Form.vue`).
+
 ## CSS Class Naming
 
 - HAML TIDAK BOLEH pakai utility class Tailwind mentah langsung di elemen (`class="bg-blue-500 px-4 py-2 rounded"`). Itu bikin style tersebar di banyak file dan susah reusable/maintain.

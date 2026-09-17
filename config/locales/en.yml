@@ -135,3 +135,146 @@ en:
     errors:
       invalid_quantity: "Quantity must be greater than zero."
       insufficient_stock: "Not enough stock for this movement."
+  suppliers:
+    index:
+      heading: "Suppliers"
+      add: "Add supplier"
+      empty: "No suppliers yet."
+      name: "Name"
+      contact: "Contact"
+      edit: "Edit"
+      new_heading: "New supplier"
+      edit_heading: "Edit supplier"
+    create:
+      notice: "Supplier created."
+    update:
+      notice: "Supplier updated."
+    form:
+      name_label: "Name"
+      contact_label: "Contact"
+      address_label: "Address"
+      submit: "Save supplier"
+      cancel: "Cancel"
+  customers:
+    index:
+      heading: "Customers"
+      add: "Add customer"
+      empty: "No customers yet."
+      name: "Name"
+      contact: "Contact"
+      edit: "Edit"
+      new_heading: "New customer"
+      edit_heading: "Edit customer"
+    create:
+      notice: "Customer created."
+    update:
+      notice: "Customer updated."
+    form:
+      name_label: "Name"
+      contact_label: "Contact"
+      submit: "Save customer"
+      cancel: "Cancel"
+  purchase_orders:
+    index:
+      heading: "Purchase orders"
+      add: "New purchase order"
+      empty: "No purchase orders yet."
+      number: "PO"
+      supplier: "Supplier"
+      status: "Status"
+      total: "Total"
+      date: "Date"
+    new:
+      heading: "New purchase order"
+    edit:
+      heading: "Edit purchase order"
+    show:
+      supplier: "Supplier"
+      status: "Status"
+      date: "Date"
+      edit: "Edit"
+      mark_as_ordered: "Mark as ordered"
+      mark_as_received: "Mark as received"
+      items: "Items"
+      product: "Product"
+      quantity: "Quantity"
+      unit_cost: "Unit cost"
+      subtotal: "Subtotal"
+      total: "Total"
+    create:
+      notice: "Purchase order created."
+    update:
+      notice: "Purchase order updated."
+    mark_as_ordered:
+      notice: "Purchase order marked as ordered."
+    mark_as_received:
+      notice: "Purchase order received — stock updated."
+    form:
+      supplier_label: "Supplier"
+      add_item: "Add item"
+      remove_item: "Remove"
+      submit: "Save purchase order"
+      cancel: "Cancel"
+    status:
+      draft: "Draft"
+      ordered: "Ordered"
+      received: "Received"
+    errors:
+      no_items: "Add at least one item."
+      not_draft: "Only draft purchase orders can be changed."
+      not_ordered: "Only ordered purchase orders can be received."
+  sales_orders:
+    index:
+      heading: "Sales orders"
+      add: "New sales order"
+      empty: "No sales orders yet."
+      number: "SO"
+      customer: "Customer"
+      status: "Status"
+      total: "Total"
+      date: "Date"
+    new:
+      heading: "New sales order"
+    edit:
+      heading: "Edit sales order"
+    show:
+      customer: "Customer"
+      status: "Status"
+      date: "Date"
+      edit: "Edit"
+      confirm: "Confirm order"
+      invoice: "View invoice"
+      items: "Items"
+      product: "Product"
+      quantity: "Quantity"
+      unit_price: "Unit price"
+      subtotal: "Subtotal"
+      total: "Total"
+    invoice:
+      heading: "Invoice"
+      print: "Print"
+      billed_to: "Billed to"
+      date: "Date"
+      product: "Product"
+      quantity: "Quantity"
+      unit_price: "Unit price"
+      subtotal: "Subtotal"
+      total: "Total"
+    create:
+      notice: "Sales order created."
+    update:
+      notice: "Sales order updated."
+    confirm:
+      notice: "Sales order confirmed — stock updated."
+    form:
+      customer_label: "Customer"
+      add_item: "Add item"
+      remove_item: "Remove"
+      submit: "Save sales order"
+      cancel: "Cancel"
+    status:
+      draft: "Draft"
+      confirmed: "Confirmed"
+    errors:
+      no_items: "Add at least one item."
+      not_draft: "Only draft sales orders can be changed."

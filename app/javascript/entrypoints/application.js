@@ -10,7 +10,7 @@ const components = import.meta.glob('~/components/*.vue', { eager: true })
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('[data-vue-component]').forEach((el) => {
     const name = el.dataset.vueComponent
-    const mod = components[`/app/javascript/components/${name}.vue`]
+    const mod = components[`/components/${name}.vue`]
     if (!mod) {
       console.error(`Vue component "${name}" not found in app/javascript/components`)
       return

@@ -1,0 +1,13 @@
+= form_with model: customer, url: @customer_presenter.form_url, class: "space-y-5" do |form|
+  = request_uuid_field
+  .field__group
+    = form.label :name, t("customers.form.name_label"), class: "field__label"
+    = form.text_field :name, value: customer.name, required: true, autofocus: true, class: "field__input"
+
+  .field__group
+    = form.label :contact, t("customers.form.contact_label"), class: "field__label"
+    = form.text_field :contact, value: customer.contact, class: "field__input"
+
+  .form__actions
+    = link_to t("customers.form.cancel"), customers_path, class: "btn--secondary"
+    = form.submit t("customers.form.submit"), class: "btn--submit"

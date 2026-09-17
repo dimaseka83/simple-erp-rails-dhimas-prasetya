@@ -1,0 +1,17 @@
+= form_with model: supplier, url: @supplier_presenter.form_url, class: "space-y-5" do |form|
+  = request_uuid_field
+  .field__group
+    = form.label :name, t("suppliers.form.name_label"), class: "field__label"
+    = form.text_field :name, value: supplier.name, required: true, autofocus: true, class: "field__input"
+
+  .field__group
+    = form.label :contact, t("suppliers.form.contact_label"), class: "field__label"
+    = form.text_field :contact, value: supplier.contact, class: "field__input"
+
+  .field__group
+    = form.label :address, t("suppliers.form.address_label"), class: "field__label"
+    = form.text_field :address, value: supplier.address, class: "field__input"
+
+  .form__actions
+    = link_to t("suppliers.form.cancel"), suppliers_path, class: "btn--secondary"
+    = form.submit t("suppliers.form.submit"), class: "btn--submit"

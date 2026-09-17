@@ -1,6 +1,8 @@
 class Product < ApplicationRecord
   belongs_to :category
   has_many :stock_movements, dependent: :destroy
+  has_many :purchase_order_items, dependent: :restrict_with_error
+  has_many :sales_order_items, dependent: :restrict_with_error
 
   enum :unit, { pcs: "pcs", kg: "kg", box: "box" }, default: "pcs", validate: true
 

@@ -8,6 +8,22 @@ Rails.application.routes.draw do
     resources :stock_movements, only: :create
   end
   resources :stock_movements, only: :index
+
+  resources :suppliers, only: %i[ index create update ]
+  resources :purchase_orders, only: %i[ index show new create edit update ] do
+    member do
+      patch :mark_as_ordered
+      patch :mark_as_received
+    end
+  end
+
+  resources :customers, only: %i[ index create update ]
+  resources :sales_orders, only: %i[ index show new create edit update ] do
+    member do
+      patch :confirm
+      get :invoice
+    end
+  end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

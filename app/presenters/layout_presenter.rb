@@ -22,6 +22,22 @@ class LayoutPresenter < ApplicationPresenter
     link_classes(view.stock_movements_path)
   end
 
+  def nav_suppliers_link_classes
+    link_classes(view.suppliers_path)
+  end
+
+  def nav_purchase_orders_link_classes
+    link_classes(view.purchase_orders_path)
+  end
+
+  def nav_customers_link_classes
+    link_classes(view.customers_path)
+  end
+
+  def nav_sales_orders_link_classes
+    link_classes(view.sales_orders_path)
+  end
+
   def locale_links
     LOCALES.map do |locale|
       {
