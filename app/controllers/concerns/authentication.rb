@@ -45,8 +45,10 @@ module Authentication
       cookies.signed.permanent[:session_id] = { value: session.id, httponly: true, same_site: :lax }
     end
 
+    # The actual destroy goes through SessionsManager; this method only
+    # owns the HTTP-layer concerns of "being signed out": the cookie.
     def terminate_session
-      Current.session.destroy
+      ::SessionsManager.destroy(session: Current.session)
       cookies.delete(:session_id)
     end
 end

@@ -1,6 +1,6 @@
-- url = category.persisted? ? category_path(category) : categories_path
+- presenter = CategoryPresenter.new(self, category: category)
 
-= form_with model: category, url: url, class: "space-y-5" do |form|
+= form_with model: category, url: presenter.form_url, class: "space-y-5" do |form|
   = request_uuid_field
   .field-group
     = form.label :name, t("categories.form.name_label"), class: "field-label"

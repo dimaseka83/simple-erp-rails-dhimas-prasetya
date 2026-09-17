@@ -7,5 +7,10 @@ class SessionsManager < ApplicationManager
       session = user.sessions.create!(user_agent: user_agent, ip_address: ip_address)
       success(session)
     end
+
+    def destroy(session:)
+      session.destroy
+      success
+    end
   end
 end
