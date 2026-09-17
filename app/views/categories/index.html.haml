@@ -28,7 +28,7 @@
     .split-panel-form{class: ("hidden md:block" unless @show_form)}
       .panel
         .panel-header
-          %h2.panel-title= @category_presenter.form_heading
+          %h2.panel-title= @presenter.form_heading
         = render "form", category: @category
 
   - unless @show_form

@@ -1,13 +1,8 @@
 class StockMovementPresenter < ApplicationPresenter
-  # For the "record movement" <select> — no movement instance yet, so this
-  # is a class method rather than needing a throwaway StockMovement.new.
-  def self.type_options(view)
-    StockMovement.movement_types.keys.map { |type| [ view.t("stock_movements.types.#{type}"), type ] }
-  end
-
-  def initialize(view, movement:)
+  def initialize(view, movement: nil, movements: nil)
     super(view)
     @movement = movement
+    @movements = movements
   end
 
   def product_name
@@ -37,5 +32,22 @@ class StockMovementPresenter < ApplicationPresenter
 
   def occurred_at
     @movement.created_at.strftime("%d %b %Y %H:%M")
+  end
+
+  def rows
+    @movements.map { |movement| self.class.new(view, movement: movement).row }
+  end
+
+  def movements_empty?
+    @movements.empty?
+  end
+
+  # Public so ProductPresenter can compose it for the show page's
+  # movement history — still never called directly from .haml.
+  def row
+    {
+      product_name: product_name, type_label: type_label, type_badge_classes: type_badge_classes,
+      quantity_formatted: quantity_formatted, note: note, user_email: user_email, occurred_at: occurred_at
+    }
   end
 end

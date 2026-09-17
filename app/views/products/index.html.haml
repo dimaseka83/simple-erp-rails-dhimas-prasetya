@@ -13,7 +13,7 @@
   = form_with url: products_path, method: :get, class: "search-bar" do |form|
     = form.text_field :q, value: params[:q], placeholder: t(".search_placeholder"), class: "search-input"
 
-  - if @presenter_list.empty?
+  - if @presenter.products_empty?
     .empty-state
       %p= t(".empty")
       = link_to t(".add"), new_product_path, class: "empty-state-action"
@@ -30,15 +30,15 @@
             %th.data-table-head-cell-numeric= t(".stock")
             %th.data-table-head-cell
         %tbody
-          - @presenter_list.each do |product|
+          - @presenter.rows.each do |product|
             %tr.data-table-row
-              %td.data-table-cell-primary= link_to product.name, product.path, class: "hover:underline"
-              %td.data-table-cell-code= product.sku
-              %td.data-table-cell= product.category_name
-              %td.data-table-cell= product.unit_label
-              %td.data-table-cell-numeric= product.selling_price_formatted
-              %td{class: "data-table-cell-numeric #{product.stock_text_classes}"}
-                = product.stock_quantity_formatted
-              %td.data-table-cell= link_to t("categories.index.edit"), product.edit_path, class: "link-accent"
+              %td.data-table-cell-primary= link_to product[:name], product[:path], class: "hover:underline"
+              %td.data-table-cell-code= product[:sku]
+              %td.data-table-cell= product[:category_name]
+              %td.data-table-cell= product[:unit_label]
+              %td.data-table-cell-numeric= product[:selling_price_formatted]
+              %td{class: "data-table-cell-numeric #{product[:stock_text_classes]}"}
+                = product[:stock_quantity_formatted]
+              %td.data-table-cell= link_to t("categories.index.edit"), product[:edit_path], class: "link-accent"
 
     = render "shared/pagination"

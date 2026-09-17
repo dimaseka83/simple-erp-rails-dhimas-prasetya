@@ -35,7 +35,7 @@
     = request_uuid_field
     .quick-form-field
       = label_tag :movement_type, t("stock_movements.form.movement_type_label"), class: "field-label"
-      = select_tag :movement_type, options_for_select(StockMovementPresenter.type_options(self)), class: "select-input"
+      = select_tag :movement_type, options_for_select(@presenter.movement_type_options), class: "select-input"
     .quick-form-field
       = label_tag :quantity, t("stock_movements.form.quantity_label"), class: "field-label"
       = number_field_tag :quantity, nil, required: true, min: 0.01, step: "0.01", class: "field-input"
@@ -46,7 +46,7 @@
 
   %h2.section-title= t(".movement_history")
 
-  - if @movement_presenters.empty?
+  - if @presenter.movements_empty?
     .empty-state= t(".no_movements")
   - else
     .table-container
@@ -59,11 +59,11 @@
             %th.data-table-head-cell= t("stock_movements.index.note")
             %th.data-table-head-cell= t("stock_movements.index.by")
         %tbody
-          - @movement_presenters.each do |movement|
+          - @presenter.movement_rows.each do |movement|
             %tr.data-table-row
-              %td.data-table-cell= movement.occurred_at
+              %td.data-table-cell= movement[:occurred_at]
               %td.data-table-cell
-                %span{class: movement.type_badge_classes}= movement.type_label
-              %td.data-table-cell-numeric= movement.quantity_formatted
-              %td.data-table-cell= movement.note
-              %td.data-table-cell= movement.user_email
+                %span{class: movement[:type_badge_classes]}= movement[:type_label]
+              %td.data-table-cell-numeric= movement[:quantity_formatted]
+              %td.data-table-cell= movement[:note]
+              %td.data-table-cell= movement[:user_email]

@@ -11,11 +11,11 @@
 
     .field-group
       = form.label :category_id, t("products.form.category_label"), class: "field-label"
-      = form.select :category_id, ProductPresenter.category_options(categories), { selected: product.category_id }, class: "select-input"
+      = form.select :category_id, @presenter.category_options, { selected: product.category_id }, class: "select-input"
 
     .field-group
       = form.label :unit, t("products.form.unit_label"), class: "field-label"
-      = form.select :unit, ProductPresenter.unit_options(self), { selected: product.unit }, class: "select-input"
+      = form.select :unit, @presenter.unit_options, { selected: product.unit }, class: "select-input"
 
     .field-group
       = form.label :cost_price, t("products.form.cost_price_label"), class: "field-label"

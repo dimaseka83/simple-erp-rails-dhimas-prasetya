@@ -5,18 +5,17 @@ class ProductsController < ApplicationController
   def index
     products = Product.includes(:category).search(params[:q]).order(:name)
     products = paginate(products)
-    @presenter_list = products.map { |product| ProductPresenter.new(view_context, product: product) }
+    @presenter = ProductPresenter.new(view_context, products: products)
   end
 
   def show
-    @presenter = ProductPresenter.new(view_context, product: @product)
     movements = @product.stock_movements.includes(:user).order(created_at: :desc).limit(50)
-    @movement_presenters = movements.map { |movement| StockMovementPresenter.new(view_context, movement: movement) }
+    @presenter = ProductPresenter.new(view_context, product: @product, movements: movements)
   end
 
   def new
     @product = Product.new
-    @categories = Category.order(:name)
+    @presenter = ProductPresenter.new(view_context, product: @product, categories: Category.order(:name))
   end
 
   def create
@@ -25,13 +24,13 @@ class ProductsController < ApplicationController
       redirect_to products_path, notice: t(".notice")
     else
       @product = result.object
-      @categories = Category.order(:name)
+      @presenter = ProductPresenter.new(view_context, product: @product, categories: Category.order(:name))
       render :new, status: :unprocessable_entity
     end
   end
 
   def edit
-    @categories = Category.order(:name)
+    @presenter = ProductPresenter.new(view_context, product: @product, categories: Category.order(:name))
   end
 
   def update
@@ -40,7 +39,7 @@ class ProductsController < ApplicationController
       redirect_to products_path, notice: t(".notice")
     else
       @product = result.object
-      @categories = Category.order(:name)
+      @presenter = ProductPresenter.new(view_context, product: @product, categories: Category.order(:name))
       render :edit, status: :unprocessable_entity
     end
   end

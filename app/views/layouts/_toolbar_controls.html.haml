@@ -1,9 +1,7 @@
-- toolbar = ToolbarPresenter.new(self)
-
 .toolbar
   .locale-switcher
-    - toolbar.locales.each do |locale|
-      = link_to locale.upcase, set_locale_path(locale: locale), class: toolbar.locale_link_classes(locale)
+    - @layout_presenter.locale_links.each do |locale_link|
+      = link_to locale_link[:label], locale_link[:url], class: locale_link[:css_class]
 
   = icon_button css_class: "theme-toggle-btn", aria_label: "Toggle color theme", data: { theme_toggle: true } do
     %svg{class: "icon-sm theme-icon-dark", xmlns: "http://www.w3.org/2000/svg", viewbox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width" => "2", "stroke-linecap" => "round", "stroke-linejoin" => "round"}

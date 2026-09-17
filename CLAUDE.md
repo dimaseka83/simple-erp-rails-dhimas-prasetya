@@ -18,11 +18,10 @@ Model/DB → Service/Manager → Controller → Presenter → HAML (pure HTML)
 
 ### 2. Service / Manager (`app/services/`)
 - Semua business logic dan write ke database (create/update/destroy) lewat sini — controller TIDAK BOLEH panggil `Model.create`/`.save`/`.update` langsung.
-- Satu class = satu tanggung jawab. Namespace per domain, contoh:
-  - `app/services/inventory/adjust_stock.rb`
-  - `app/services/procurement/receive_purchase_order.rb`
-  - `app/services/sales/confirm_sales_order.rb`
-- Konvensi: class dengan method `call`, dipanggil `Namespace::ActionName.new(params).call`.
+- **1 controller = 1 Service/Manager class.** Semua action di controller yang sama (create, update, destroy, dst) masuk ke satu file service yang sama, sebagai method berbeda — bukan bikin service terpisah per action.
+  - Contoh: `PurchaseOrdersController` → `app/services/purchase_order_manager.rb` dengan method `create(params)`, `update(po, params)`, `receive(po)`, dst — semua di satu class.
+- Namespace per domain kalau perlu, contoh: `app/services/procurement/purchase_order_manager.rb` untuk `Procurement::PurchaseOrdersController`.
+- Konvensi: controller panggil `PurchaseOrderManager.new.create(params)` atau method yang sesuai action.
 - Return value konsisten — pakai object hasil sederhana (misal `OpenStruct.new(success:, record:, errors:)`) supaya controller gampang cek hasilnya.
 
 ### 3. Controller (`app/controllers/`)
@@ -32,15 +31,74 @@ Model/DB → Service/Manager → Controller → Presenter → HAML (pure HTML)
 
 ### 4. Presenter (`app/presenters/`)
 - Semua logic tampilan (formatting angka/tanggal, kondisi tampil-tidak elemen, label status, dsb) taruh di sini.
-- Satu presenter per resource utama, contoh: `app/presenters/product_presenter.rb`, `app/presenters/purchase_order_presenter.rb`.
+- **Berbeda dari Service/Manager: presenter BOLEH lebih dari satu file per controller**, dipecah per action/view kalau kebutuhan tampilannya beda jauh.
+  - Contoh: `PurchaseOrdersController` bisa punya `app/presenters/purchase_order_index_presenter.rb` (untuk list/index) dan `app/presenters/purchase_order_form_presenter.rb` (untuk create/edit form) — dipisah karena data & logic yang dibutuhkan beda.
+  - Kalau logic tampilan index & form/show cukup mirip, boleh digabung jadi satu `app/presenters/purchase_order_presenter.rb` — pecah hanya kalau memang beda kebutuhan (YAGNI, jangan pecah dari awal kalau belum perlu).
 - Presenter menerima model/data di constructor, expose method yang dipanggil langsung dari view.
+- **Controller assign SATU instance variable `@presenter` (bukan banyak variable terpisah per data).** HAML memanggil method dari `@presenter` itu, bukan memanggil class presenter langsung dengan `self`/params sebagai argumen.
+
+  **Salah** (manggil class presenter langsung di HAML, `self` sebagai argumen):
+  ```haml
+  = StockMovementPresenter.type_options(self)
+  ```
+
+  **Salah juga** (instance variable kebanyakan, satu per data):
+  ```ruby
+  # controller
+  @movement_type_options = StockMovementPresenter.new(@movement).type_options
+  @movement_status_label = StockMovementPresenter.new(@movement).status_label
+  ```
+
+  **Benar** (satu `@presenter`, HAML panggil method-nya):
+  ```ruby
+  # controller
+  def new
+    @movement = StockMovement.new
+    @presenter = StockMovementPresenter.new(@movement)
+  end
+  ```
+  ```haml
+  = f.select :movement_type, @presenter.type_options
+  %span= @presenter.status_label
+  ```
+- Method di presenter tetap dinamai jelas sesuai isinya (`type_options`, `status_label`, `formatted_total`) — lihat aturan Penamaan.
 
 ### 5. HAML (`app/views/`)
-- Pure HTML + pemanggilan method presenter. TIDAK BOLEH ada:
+- Pure HTML + pemanggilan method dari `@presenter` (lihat aturan Presenter di atas). TIDAK BOLEH ada:
+  - Pemanggilan class presenter langsung di HAML (`= SomePresenter.method(...)` atau `SomePresenter.new(...).method`) — harus lewat `@presenter` yang sudah di-assign controller
   - `if/else` untuk logic bisnis (boleh untuk struktur HTML sederhana seperti render partial kondisional)
   - kalkulasi atau formatting manual (`number_to_currency` dsb dipanggil dari presenter, bukan langsung di view)
   - query database langsung dari view
-- Kalau ketemu logic yang "ribet" di HAML, itu tanda harus dipindah ke Presenter.
+- Kalau ketemu logic yang "ribet" di HAML, itu tanda harus dipindah jadi method baru di Presenter, dipanggil lewat `@presenter.method_baru`.
+
+## CSS Class Naming
+
+- HAML TIDAK BOLEH pakai utility class Tailwind mentah langsung di elemen (`class="bg-blue-500 px-4 py-2 rounded"`). Itu bikin style tersebar di banyak file dan susah reusable/maintain.
+- Semua elemen pakai nama class semantik sesuai fungsinya, contoh:
+  ```haml
+  .alert-notice
+  .btn-primary
+  .stock-badge--low
+  ```
+- Utility Tailwind tetap dipakai, tapi di-compose satu kali di file CSS pakai `@apply`, bukan ditulis berulang di tiap HAML:
+  ```css
+  /* app/assets/stylesheets/components/_alert.css */
+  .alert-notice {
+    @apply bg-blue-50 text-blue-800 border border-blue-200 rounded px-4 py-3;
+  }
+  ```
+- Penamaan class ikuti BEM sederhana: `.block`, `.block__element`, `.block--modifier` — contoh `.stock-badge`, `.stock-badge--low`, `.stock-badge--out`.
+- Kalau sebuah kombinasi utility dipakai 2+ kali di file berbeda, itu tanda harus diekstrak jadi class semantik baru (prinsip DRY berlaku juga di CSS).
+
+## Penamaan (naming convention)
+
+- Semua nama file, class, method, variable, dan key locale WAJIB Bahasa Inggris — konsisten dengan konvensi Ruby/Rails community, jangan campur Bahasa Indonesia (misal jangan `def buat_po`, harus `def create_purchase_order`).
+- Nama method harus jelas dan spesifik sesuai fungsinya, hindari nama ambigu atau generik:
+  - **Salah**: `process`, `handle`, `do_stuff`, `check`, `update_data`
+  - **Benar**: `receive_purchase_order`, `calculate_available_stock`, `validate_sufficient_stock`, `mark_as_confirmed`
+- Method boolean/predicate diawali `is_`/`has_`/berakhiran `?` sesuai konteks: `sufficient_stock?`, `fully_received?` — bukan `check_stock` yang gak jelas return-nya apa.
+- Nama variable instance dari presenter deskriptif sesuai isinya (lihat aturan Presenter), bukan generik seperti `@data`, `@result`, `@presenter`.
+- Nama service/manager method sesuai action bisnisnya, bukan CRUD generik polos: lebih baik `confirm(sales_order)` atau `mark_as_confirmed(sales_order)` daripada `update(sales_order, params)` kalau memang maksudnya spesifik satu aksi bisnis (tapi untuk CRUD standar seperti create/update murni, nama `create`/`update` tetap boleh dipakai — yang penting konsisten satu pola dalam satu service).
 
 ## Prinsip tambahan (wajib di semua layer)
 
@@ -80,7 +138,7 @@ Model/DB → Service/Manager → Controller → Presenter → HAML (pure HTML)
 - [ ] Model cuma berisi association/validation/scope
 - [ ] Semua write ke DB lewat Service, bukan langsung dari Controller
 - [ ] Controller cuma manggil 1 service + render/redirect
-- [ ] Semua formatting/kondisi tampilan ada di Presenter, bukan di HAML
+- [ ] Semua formatting/kondisi tampilan ada di Presenter, dipanggil lewat satu `@presenter` di HAML (bukan banyak instance variable atau manggil class presenter langsung)
 - [ ] HAML tidak ada logic bisnis atau kalkulasi manual
 - [ ] Tidak ada logic/kode yang terduplikasi (DRY)
 - [ ] Tidak ada abstraksi/field/opsi yang belum dibutuhkan sekarang (YAGNI)

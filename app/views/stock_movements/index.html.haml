@@ -4,7 +4,7 @@
   .page-header
     %h1.page-title= t(".heading")
 
-  - if @presenter_list.empty?
+  - if @presenter.movements_empty?
     .empty-state= t(".empty")
   - else
     .table-container
@@ -18,14 +18,14 @@
             %th.data-table-head-cell= t(".note")
             %th.data-table-head-cell= t(".by")
         %tbody
-          - @presenter_list.each do |movement|
+          - @presenter.rows.each do |movement|
             %tr.data-table-row
-              %td.data-table-cell= movement.occurred_at
-              %td.data-table-cell-primary= movement.product_name
+              %td.data-table-cell= movement[:occurred_at]
+              %td.data-table-cell-primary= movement[:product_name]
               %td.data-table-cell
-                %span{class: movement.type_badge_classes}= movement.type_label
-              %td.data-table-cell-numeric= movement.quantity_formatted
-              %td.data-table-cell= movement.note
-              %td.data-table-cell= movement.user_email
+                %span{class: movement[:type_badge_classes]}= movement[:type_label]
+              %td.data-table-cell-numeric= movement[:quantity_formatted]
+              %td.data-table-cell= movement[:note]
+              %td.data-table-cell= movement[:user_email]
 
     = render "shared/pagination"

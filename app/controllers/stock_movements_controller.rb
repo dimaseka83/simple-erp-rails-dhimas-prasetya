@@ -5,7 +5,7 @@ class StockMovementsController < ApplicationController
   def index
     movements = StockMovement.includes(:product, :user).order(created_at: :desc)
     movements = paginate(movements)
-    @presenter_list = movements.map { |movement| StockMovementPresenter.new(view_context, movement: movement) }
+    @presenter = StockMovementPresenter.new(view_context, movements: movements)
   end
 
   def create

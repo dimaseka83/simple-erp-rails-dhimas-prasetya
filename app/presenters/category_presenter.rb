@@ -4,10 +4,6 @@ class CategoryPresenter < ApplicationPresenter
     @category = category
   end
 
-  def name
-    @category.name
-  end
-
   def form_url
     @category.persisted? ? view.category_path(@category) : view.categories_path
   end

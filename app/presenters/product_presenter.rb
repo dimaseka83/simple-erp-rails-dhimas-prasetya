@@ -1,24 +1,15 @@
 class ProductPresenter < ApplicationPresenter
   LOW_STOCK_THRESHOLD = 10
 
-  # Options for the product form's <select> tags — no product instance
-  # needed, so these are class methods rather than throwaway instances.
-  def self.category_options(categories)
-    categories.map { |category| [ category.name, category.id ] }
-  end
-
-  def self.unit_options(view)
-    Product.units.keys.map { |unit| [ view.t("units.#{unit}"), unit ] }
-  end
-
-  def initialize(view, product:)
+  def initialize(view, product: nil, products: nil, categories: nil, movements: nil)
     super(view)
     @product = product
+    @products = products
+    @categories = categories
+    @movements = movements
   end
 
-  def id
-    @product.id
-  end
+  # -- single product (show/edit) --------------------------------------
 
   def name
     @product.name
@@ -67,6 +58,49 @@ class ProductPresenter < ApplicationPresenter
   def edit_path
     view.edit_product_path(@product)
   end
+
+  # -- product list (index) ---------------------------------------------
+
+  def rows
+    @products.map { |product| self.class.new(view, product: product).row }
+  end
+
+  def products_empty?
+    @products.empty?
+  end
+
+  # -- form <select> options ---------------------------------------------
+
+  def category_options
+    @categories.map { |category| [ category.name, category.id ] }
+  end
+
+  def unit_options
+    Product.units.keys.map { |unit| [ view.t("units.#{unit}"), unit ] }
+  end
+
+  # -- movement quick-add form + history (show) --------------------------
+
+  def movement_type_options
+    StockMovement.movement_types.keys.map { |type| [ view.t("stock_movements.types.#{type}"), type ] }
+  end
+
+  def movement_rows
+    @movements.map { |movement| StockMovementPresenter.new(view, movement: movement).row }
+  end
+
+  def movements_empty?
+    @movements.empty?
+  end
+
+  protected
+    def row
+      {
+        name: name, sku: sku, category_name: category_name, unit_label: unit_label,
+        selling_price_formatted: selling_price_formatted, stock_quantity_formatted: stock_quantity_formatted,
+        stock_text_classes: stock_text_classes, path: path, edit_path: edit_path
+      }
+    end
 
   private
     def format_currency(amount)

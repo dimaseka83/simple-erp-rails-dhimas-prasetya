@@ -1,5 +1,3 @@
-- current_user = CurrentUserPresenter.new(self, user: Current.user)
-
 .topbar
   = icon_button css_class: "sidebar-toggle-btn", aria_label: "Toggle navigation", data: { sidebar_toggle: true } do
     %svg.icon-md{xmlns: "http://www.w3.org/2000/svg", viewbox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width" => "1.8", "stroke-linecap" => "round", "stroke-linejoin" => "round"}
@@ -12,9 +10,9 @@
 
     %details.dropdown
       %summary.dropdown-trigger
-        .avatar= current_user.initials
+        .avatar= @layout_presenter.current_user_initials
       .dropdown-menu
         .dropdown-header
-          %p.dropdown-header-email= current_user.email_address
+          %p.dropdown-header-email= @layout_presenter.current_user_email
         %hr.dropdown-divider
         = button_to t("nav.sign_out"), session_path, method: :delete, class: "dropdown-item"
