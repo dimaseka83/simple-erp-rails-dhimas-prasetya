@@ -1,6 +1,16 @@
 class ProductPresenter < ApplicationPresenter
   LOW_STOCK_THRESHOLD = 10
 
+  # Options for the product form's <select> tags — no product instance
+  # needed, so these are class methods rather than throwaway instances.
+  def self.category_options(categories)
+    categories.map { |category| [ category.name, category.id ] }
+  end
+
+  def self.unit_options(view)
+    Product.units.keys.map { |unit| [ view.t("units.#{unit}"), unit ] }
+  end
+
   def initialize(view, product:)
     super(view)
     @product = product

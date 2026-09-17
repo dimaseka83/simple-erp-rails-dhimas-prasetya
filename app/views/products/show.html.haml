@@ -35,7 +35,7 @@
     = request_uuid_field
     .quick-form-field
       = label_tag :movement_type, t("stock_movements.form.movement_type_label"), class: "field-label"
-      = select_tag :movement_type, options_for_select(StockMovement.movement_types.keys.map { |type| [t("stock_movements.types.#{type}"), type] }), class: "select-input"
+      = select_tag :movement_type, options_for_select(StockMovementPresenter.type_options(self)), class: "select-input"
     .quick-form-field
       = label_tag :quantity, t("stock_movements.form.quantity_label"), class: "field-label"
       = number_field_tag :quantity, nil, required: true, min: 0.01, step: "0.01", class: "field-input"

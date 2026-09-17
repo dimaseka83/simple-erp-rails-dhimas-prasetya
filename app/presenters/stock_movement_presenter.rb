@@ -1,4 +1,10 @@
 class StockMovementPresenter < ApplicationPresenter
+  # For the "record movement" <select> — no movement instance yet, so this
+  # is a class method rather than needing a throwaway StockMovement.new.
+  def self.type_options(view)
+    StockMovement.movement_types.keys.map { |type| [ view.t("stock_movements.types.#{type}"), type ] }
+  end
+
   def initialize(view, movement:)
     super(view)
     @movement = movement
