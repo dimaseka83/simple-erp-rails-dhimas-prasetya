@@ -1,11 +1,11 @@
 - if @pagination[:total_pages] > 1
   .pagination
     - if @pagination[:page] > 1
-      = link_to t("pagination.prev"), url_for(request.query_parameters.merge(page: @pagination[:page] - 1)), class: "btn-secondary"
+      = link_to t("pagination.prev"), url_for(request.query_parameters.merge(page: @pagination[:page] - 1)), class: "btn--secondary"
     - else
       %span
-    %span.pagination-status= t("pagination.status", page: @pagination[:page], total: @pagination[:total_pages])
+    %span.pagination__status= t("pagination.status", page: @pagination[:page], total: @pagination[:total_pages])
     - if @pagination[:page] < @pagination[:total_pages]
-      = link_to t("pagination.next"), url_for(request.query_parameters.merge(page: @pagination[:page] + 1)), class: "btn-secondary"
+      = link_to t("pagination.next"), url_for(request.query_parameters.merge(page: @pagination[:page] + 1)), class: "btn--secondary"
     - else
       %span

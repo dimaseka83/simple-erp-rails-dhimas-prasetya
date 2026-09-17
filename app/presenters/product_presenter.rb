@@ -43,11 +43,11 @@ class ProductPresenter < ApplicationPresenter
   # color itself carries the status (out/low/ok), see design.md §5.
   def stock_text_classes
     if @product.stock_quantity <= 0
-      "stock-danger"
+      "stock--danger"
     elsif @product.stock_quantity <= LOW_STOCK_THRESHOLD
-      "stock-warn"
+      "stock--warn"
     else
-      "stock-accent"
+      "stock--accent"
     end
   end
 

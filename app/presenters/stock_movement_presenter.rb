@@ -14,7 +14,7 @@ class StockMovementPresenter < ApplicationPresenter
   end
 
   def type_badge_classes
-    @movement.stock_in? ? "badge-accent" : "badge-neutral"
+    @movement.stock_in? ? "badge--accent" : "badge--neutral"
   end
 
   def quantity_formatted

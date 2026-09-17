@@ -1,31 +1,31 @@
 - content_for :title, t(".heading")
 
-.page-container-wide
-  .page-header
-    %h1.page-title= t(".heading")
+.page__container--wide
+  .page__header
+    %h1.page__title= t(".heading")
 
-  - if @presenter.movements_empty?
+  - if @stock_movement_presenter.movements_empty?
     .empty-state= t(".empty")
   - else
-    .table-container
-      %table.data-table
-        %thead.data-table-head
+    .table__container
+      %table.table
+        %thead.table__head
           %tr
-            %th.data-table-head-cell= t(".date")
-            %th.data-table-head-cell= t(".product")
-            %th.data-table-head-cell= t(".type")
-            %th.data-table-head-cell-numeric= t(".quantity")
-            %th.data-table-head-cell= t(".note")
-            %th.data-table-head-cell= t(".by")
+            %th.table__head-cell= t(".date")
+            %th.table__head-cell= t(".product")
+            %th.table__head-cell= t(".type")
+            %th.table__head-cell--numeric= t(".quantity")
+            %th.table__head-cell= t(".note")
+            %th.table__head-cell= t(".by")
         %tbody
-          - @presenter.rows.each do |movement|
-            %tr.data-table-row
-              %td.data-table-cell= movement[:occurred_at]
-              %td.data-table-cell-primary= movement[:product_name]
-              %td.data-table-cell
+          - @stock_movement_presenter.rows.each do |movement|
+            %tr.table__row
+              %td.table__cell= movement[:occurred_at]
+              %td.table__cell--primary= movement[:product_name]
+              %td.table__cell
                 %span{class: movement[:type_badge_classes]}= movement[:type_label]
-              %td.data-table-cell-numeric= movement[:quantity_formatted]
-              %td.data-table-cell= movement[:note]
-              %td.data-table-cell= movement[:user_email]
+              %td.table__cell--numeric= movement[:quantity_formatted]
+              %td.table__cell= movement[:note]
+              %td.table__cell= movement[:user_email]
 
     = render "shared/pagination"

@@ -5,17 +5,17 @@ class ProductsController < ApplicationController
   def index
     products = Product.includes(:category).search(params[:q]).order(:name)
     products = paginate(products)
-    @presenter = ProductPresenter.new(view_context, products: products)
+    @product_presenter = ProductPresenter.new(view_context, products: products)
   end
 
   def show
     movements = @product.stock_movements.includes(:user).order(created_at: :desc).limit(50)
-    @presenter = ProductPresenter.new(view_context, product: @product, movements: movements)
+    @product_presenter = ProductPresenter.new(view_context, product: @product, movements: movements)
   end
 
   def new
     @product = Product.new
-    @presenter = ProductPresenter.new(view_context, product: @product, categories: Category.order(:name))
+    @product_presenter = ProductPresenter.new(view_context, product: @product, categories: Category.order(:name))
   end
 
   def create
@@ -24,13 +24,13 @@ class ProductsController < ApplicationController
       redirect_to products_path, notice: t(".notice")
     else
       @product = result.object
-      @presenter = ProductPresenter.new(view_context, product: @product, categories: Category.order(:name))
+      @product_presenter = ProductPresenter.new(view_context, product: @product, categories: Category.order(:name))
       render :new, status: :unprocessable_entity
     end
   end
 
   def edit
-    @presenter = ProductPresenter.new(view_context, product: @product, categories: Category.order(:name))
+    @product_presenter = ProductPresenter.new(view_context, product: @product, categories: Category.order(:name))
   end
 
   def update
@@ -39,7 +39,7 @@ class ProductsController < ApplicationController
       redirect_to products_path, notice: t(".notice")
     else
       @product = result.object
-      @presenter = ProductPresenter.new(view_context, product: @product, categories: Category.order(:name))
+      @product_presenter = ProductPresenter.new(view_context, product: @product, categories: Category.order(:name))
       render :edit, status: :unprocessable_entity
     end
   end

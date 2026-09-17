@@ -1,36 +1,36 @@
 - content_for :title, t(".heading")
 
-.page-container-wide
-  .page-header
-    %h1.page-title= t(".heading")
-    = link_to t(".add"), categories_path(new: true), class: "btn-submit hidden md:inline-flex"
+.page__container--wide
+  .page__header
+    %h1.page__title= t(".heading")
+    = link_to t(".add"), categories_path(new: true), class: "btn--submit hidden md:inline-flex"
 
   - if flash[:notice]
-    .alert-notice= flash[:notice]
+    .alert--notice= flash[:notice]
 
   .split-panel
-    .split-panel-list{class: ("hidden md:block" if @show_form)}
+    .split-panel__list{class: ("hidden md:block" if @show_form)}
       - if @categories.empty?
         .empty-state= t(".empty")
       - else
-        .table-container
-          %table.data-table
-            %thead.data-table-head
+        .table__container
+          %table.table
+            %thead.table__head
               %tr
-                %th.data-table-head-cell= t(".name")
-                %th.data-table-head-cell
+                %th.table__head-cell= t(".name")
+                %th.table__head-cell
             %tbody
               - @categories.each do |category|
-                %tr.data-table-row
-                  %td.data-table-cell-primary= category.name
-                  %td.data-table-cell= link_to t(".edit"), categories_path(edit: category.id), class: "link-accent"
+                %tr.table__row
+                  %td.table__cell--primary= category.name
+                  %td.table__cell= link_to t(".edit"), categories_path(edit: category.id), class: "link-accent"
 
-    .split-panel-form{class: ("hidden md:block" unless @show_form)}
+    .split-panel__form{class: ("hidden md:block" unless @show_form)}
       .panel
-        .panel-header
-          %h2.panel-title= @presenter.form_heading
+        .panel__header
+          %h2.panel__title= @category_presenter.form_heading
         = render "form", category: @category
 
   - unless @show_form
     .mobile-add-bar
-      = link_to t(".add"), categories_path(new: true), class: "btn-primary"
+      = link_to t(".add"), categories_path(new: true), class: "btn--primary"

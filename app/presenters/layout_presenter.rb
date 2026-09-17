@@ -27,7 +27,7 @@ class LayoutPresenter < ApplicationPresenter
       {
         label: locale.upcase,
         url: view.set_locale_path(locale: locale),
-        css_class: locale == I18n.locale.to_s ? "locale-link-active" : "locale-link-inactive"
+        css_class: locale == I18n.locale.to_s ? "locale-link--active" : "locale-link--inactive"
       }
     end
   end
@@ -42,6 +42,6 @@ class LayoutPresenter < ApplicationPresenter
 
   private
     def link_classes(path)
-      view.current_page?(path) ? "nav-link-active" : "nav-link-inactive"
+      view.current_page?(path) ? "nav-link--active" : "nav-link--inactive"
     end
 end

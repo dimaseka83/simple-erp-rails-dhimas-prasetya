@@ -40,72 +40,104 @@
 /*
  * Component classes: every visual element gets a semantic name here, so
  * .haml files read as markup + component names, never raw Tailwind chains.
+ * Named BEM-style — .block, .block__element, .block--modifier — per
+ * CLAUDE.md's CSS Class Naming section. Each is still a single flat class
+ * (Tailwind v4's @apply can't reference another @layer components class,
+ * only @utility can), so a "modifier" restates the full style rather than
+ * layering on top of a separate .block class in the markup.
  *
- * Exception: `-translate-x-full` and `hidden` on #sidebar / #sidebar-backdrop
+ * Exception: `-translate-x-full` and `hidden` on #sidebar / [data-sidebar-backdrop]
  * stay as literal Tailwind utilities in the template, because app.js toggles
  * those exact class names directly — that's the standard, intentional way
  * JS-driven interactivity hooks into Tailwind, not leftover utility soup.
  */
 @layer components {
-  .btn-primary {
+  .btn--primary {
     @apply inline-flex w-full cursor-pointer items-center justify-center rounded bg-accent px-4 py-2.5 text-sm font-medium text-white transition-colors hover:opacity-90;
   }
-  .btn-secondary {
+  .btn--secondary {
     @apply inline-flex cursor-pointer items-center justify-center rounded border border-line px-4 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-bg;
   }
-  /* Same look as .btn-primary but auto-width, for inline form-action rows
+  /* Same look as .btn--primary but auto-width, for inline form-action rows
      rather than a lone full-width auth submit. */
-  .btn-submit {
+  .btn--submit {
     @apply inline-flex cursor-pointer items-center justify-center rounded bg-accent px-4 py-2.5 text-sm font-medium text-white transition-colors hover:opacity-90;
   }
 
-  .field-label {
+  .field__label {
     @apply block text-sm font-medium text-ink;
   }
-  .field-input {
+  .field__input {
     @apply w-full rounded border border-line bg-surface px-3 py-2.5 text-ink placeholder:text-ink-muted focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent;
   }
+  .field__select {
+    @apply w-full rounded border border-line bg-surface px-3 py-2.5 text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent;
+  }
+  .field__group {
+    @apply space-y-1;
+  }
+  .field__row--between {
+    @apply flex items-baseline justify-between;
+  }
 
-  .alert-error {
+  .alert--error {
     @apply mt-6 rounded border border-danger/30 bg-danger/10 px-3 py-2 text-sm text-danger;
   }
-  .alert-notice {
+  .alert--notice {
     @apply mt-6 rounded border border-accent/30 bg-accent/10 px-3 py-2 text-sm text-accent;
   }
 
-  .auth-page {
+  .auth__page {
     @apply relative flex min-h-screen items-center justify-center bg-bg px-6 py-12 font-sans;
   }
   /* No card box: a plain block on the page background, divided from the
      form by a rule — not a floating rounded-shadow card, see design.md §8. */
-  .auth-panel {
+  .auth__panel {
     @apply relative w-full max-w-sm;
+  }
+  .auth__heading {
+    @apply mt-4 text-2xl font-semibold text-ink;
+  }
+  .auth__subtitle {
+    @apply mt-1 text-sm text-ink-muted;
+  }
+  .auth__form {
+    @apply mt-6 space-y-5 border-t border-line pt-6;
   }
 
   .toolbar {
     @apply flex items-center gap-3;
   }
+  .toolbar--floating {
+    @apply fixed top-4 right-4 z-50;
+  }
 
-  .nav-link-active {
+  .nav-link--active {
     @apply flex items-center gap-3 rounded px-3 py-2 text-sm font-medium text-accent transition-colors bg-accent/10;
   }
-  .nav-link-inactive {
+  .nav-link--inactive {
     @apply flex items-center gap-3 rounded px-3 py-2 text-sm font-medium text-ink-muted transition-colors hover:bg-bg;
   }
-  .nav-link-soon {
+  .nav-link--soon {
     @apply flex items-center gap-3 rounded px-3 py-2 text-sm font-medium text-ink-muted opacity-50;
   }
-  .nav-badge {
+  .nav-link__icon {
+    @apply size-4 shrink-0;
+  }
+  .nav-link__badge {
     @apply ml-auto rounded bg-bg px-1.5 py-0.5 text-xs font-medium text-ink-muted;
   }
-  .nav-group-label {
+  .nav__group {
+    @apply space-y-1;
+  }
+  .nav__group-label {
     @apply px-3 text-xs font-semibold uppercase tracking-wider text-ink-muted;
   }
 
-  .locale-link-active {
+  .locale-link--active {
     @apply px-2.5 py-1.5 text-xs font-medium transition-colors bg-accent text-white;
   }
-  .locale-link-inactive {
+  .locale-link--inactive {
     @apply px-2.5 py-1.5 text-xs font-medium transition-colors bg-surface text-ink-muted hover:bg-bg;
   }
   .locale-switcher {
@@ -116,27 +148,10 @@
     @apply text-lg font-semibold tracking-tight text-ink;
   }
 
-  .auth-card-heading {
-    @apply mt-4 text-2xl font-semibold text-ink;
-  }
-  .auth-card-subtitle {
-    @apply mt-1 text-sm text-ink-muted;
-  }
-  .auth-form {
-    @apply mt-6 space-y-5 border-t border-line pt-6;
-  }
-
-  .field-group {
-    @apply space-y-1;
-  }
-  .field-row-between {
-    @apply flex items-baseline justify-between;
-  }
-
-  .checkbox-row {
+  .checkbox-field {
     @apply flex items-center gap-2 text-sm text-ink-muted;
   }
-  .checkbox-input {
+  .checkbox-field__input {
     @apply size-4 rounded border-line text-accent focus:ring-accent;
   }
 
@@ -144,20 +159,32 @@
     @apply text-sm text-accent hover:underline;
   }
 
-  .page-container {
+  .page__container {
     @apply mx-auto max-w-3xl px-6 py-10;
   }
-  .page-meta {
+  .page__container--wide {
+    @apply mx-auto max-w-6xl px-6 py-10;
+  }
+  .page__meta {
     @apply font-mono text-xs tracking-wide text-ink-muted;
   }
-  .page-subtitle {
+  .page__subtitle {
     @apply mt-2 text-ink-muted;
   }
+  .page__header {
+    @apply mb-6 flex items-center justify-between gap-4;
+  }
+  .page__title {
+    @apply text-xl font-semibold text-ink;
+  }
+  .page__sections {
+    @apply space-y-8;
+  }
 
-  .app-body {
+  .app__body {
     @apply bg-bg;
   }
-  .app-content {
+  .app__content {
     @apply transition-all md:pl-64;
   }
 
@@ -169,74 +196,64 @@
   .sidebar {
     @apply fixed inset-y-0 left-0 z-40 w-64 overflow-y-auto border-r border-line bg-surface transition-transform duration-200;
   }
-  .sidebar-header {
+  .sidebar__header {
     @apply flex h-16 items-center px-6;
   }
-  .sidebar-nav {
+  .sidebar__nav {
     @apply space-y-6 px-4 pb-8;
   }
-  .sidebar-backdrop {
+  .sidebar__backdrop {
     @apply fixed inset-0 z-30 bg-ink/30;
   }
-  .nav-group {
-    @apply space-y-1;
-  }
-  .nav-icon {
-    @apply size-4 shrink-0;
+  .sidebar__toggle {
+    @apply grid size-9 place-items-center rounded text-ink-muted hover:bg-bg md:hidden;
   }
 
-  .icon-sm {
+  .icon--sm {
     @apply size-4;
   }
-  .icon-md {
+  .icon--md {
     @apply size-5;
   }
-  .theme-icon-dark {
+  .theme-icon--dark {
     @apply hidden dark:block;
   }
-  .theme-icon-light {
+  .theme-icon--light {
     @apply block dark:hidden;
+  }
+  .theme-toggle {
+    @apply grid size-8 place-items-center rounded border border-line bg-surface text-ink-muted hover:bg-bg;
   }
 
   .topbar {
     @apply sticky top-0 z-20 flex h-16 items-center gap-4 border-b border-line bg-surface/90 px-4 backdrop-blur md:px-6;
   }
-  .topbar-title {
+  .topbar__title {
     @apply text-lg font-semibold text-ink;
   }
-  .topbar-actions {
+  .topbar__actions {
     @apply ml-auto flex items-center gap-4;
-  }
-  .sidebar-toggle-btn {
-    @apply grid size-9 place-items-center rounded text-ink-muted hover:bg-bg md:hidden;
-  }
-  .theme-toggle-btn {
-    @apply grid size-8 place-items-center rounded border border-line bg-surface text-ink-muted hover:bg-bg;
-  }
-
-  .floating-toolbar {
-    @apply fixed top-4 right-4 z-50;
   }
 
   .dropdown {
     @apply relative [&_summary::-webkit-details-marker]:hidden;
   }
-  .dropdown-trigger {
+  .dropdown__trigger {
     @apply flex cursor-pointer list-none items-center gap-2;
   }
-  .dropdown-menu {
+  .dropdown__menu {
     @apply absolute right-0 z-30 mt-2 w-56 rounded border border-line bg-surface p-1;
   }
-  .dropdown-header {
+  .dropdown__header {
     @apply px-3 py-2 text-sm text-ink-muted;
   }
-  .dropdown-header-email {
+  .dropdown__email {
     @apply truncate font-medium text-ink;
   }
-  .dropdown-divider {
+  .dropdown__divider {
     @apply my-1 border-line;
   }
-  .dropdown-item {
+  .dropdown__item {
     @apply w-full rounded px-3 py-2 text-left text-sm text-ink-muted hover:bg-bg;
   }
 
@@ -244,65 +261,51 @@
     @apply grid size-8 place-items-center rounded-full bg-accent text-sm font-semibold text-white;
   }
 
-  .page-container-wide {
-    @apply mx-auto max-w-6xl px-6 py-10;
-  }
-  .page-header {
-    @apply mb-6 flex items-center justify-between gap-4;
-  }
-  .page-title {
-    @apply text-xl font-semibold text-ink;
-  }
-
   .panel {
     @apply rounded border border-line bg-surface p-6;
   }
-  .panel-header {
+  .panel__header {
     @apply mb-4 flex items-center justify-between gap-4;
   }
-  .panel-title {
+  .panel__title {
     @apply text-base font-semibold text-ink;
   }
 
-  .select-input {
-    @apply w-full rounded border border-line bg-surface px-3 py-2.5 text-ink focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent;
-  }
-
-  .form-grid {
+  .form__grid {
     @apply grid gap-5 sm:grid-cols-2;
   }
-  .form-actions {
+  .form__actions {
     @apply flex justify-end gap-3;
   }
 
-  .table-container {
+  .table__container {
     @apply overflow-x-auto rounded border border-line;
   }
-  .data-table {
+  .table {
     @apply w-full text-left text-sm;
   }
-  .data-table-head {
+  .table__head {
     @apply bg-bg text-xs font-semibold uppercase tracking-wider text-ink-muted;
   }
-  .data-table-head-cell {
+  .table__head-cell {
     @apply px-4 py-3;
   }
-  .data-table-head-cell-numeric {
+  .table__head-cell--numeric {
     @apply px-4 py-3 text-right;
   }
-  .data-table-row {
+  .table__row {
     @apply border-t border-line;
   }
-  .data-table-cell {
+  .table__cell {
     @apply px-4 py-3 text-ink-muted;
   }
-  .data-table-cell-primary {
+  .table__cell--primary {
     @apply px-4 py-3 font-medium text-ink;
   }
-  .data-table-cell-numeric {
+  .table__cell--numeric {
     @apply px-4 py-3 text-right font-mono tabular-nums text-ink;
   }
-  .data-table-cell-code {
+  .table__cell--code {
     @apply px-4 py-3 font-mono text-ink-muted;
   }
 
@@ -310,56 +313,49 @@
      decorative per-row color — see design.md §5. Each variant is spelled
      out in full since @apply can't reference another @layer components
      class (that needs @utility). */
-  .badge-accent {
+  .badge--accent {
     @apply inline-flex rounded px-2 py-0.5 text-xs font-medium bg-accent/10 text-accent;
   }
-  .badge-warn {
+  .badge--warn {
     @apply inline-flex rounded px-2 py-0.5 text-xs font-medium bg-warn/10 text-warn;
   }
-  .badge-danger {
+  .badge--danger {
     @apply inline-flex rounded px-2 py-0.5 text-xs font-medium bg-danger/10 text-danger;
   }
-  .badge-neutral {
+  .badge--neutral {
     @apply inline-flex rounded px-2 py-0.5 text-xs font-medium bg-bg text-ink-muted;
   }
 
   /* Stock quantity is colored mono text, not a pill — see design.md §5. */
-  .stock-accent {
+  .stock--accent {
     @apply font-mono tabular-nums text-accent;
   }
-  .stock-warn {
+  .stock--warn {
     @apply font-mono tabular-nums text-warn;
   }
-  .stock-danger {
+  .stock--danger {
     @apply font-mono tabular-nums text-danger;
   }
 
-  .search-input {
-    @apply w-full max-w-xs rounded border border-line bg-surface px-3 py-2 text-sm text-ink placeholder:text-ink-muted focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent;
-  }
   .search-bar {
     @apply mb-4;
+  }
+  .search-bar__input {
+    @apply w-full max-w-xs rounded border border-line bg-surface px-3 py-2 text-sm text-ink placeholder:text-ink-muted focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent;
   }
 
   .pagination {
     @apply mt-4 flex items-center justify-between;
   }
-  .pagination-status {
+  .pagination__status {
     @apply text-sm text-ink-muted;
   }
 
   .empty-state {
     @apply py-12 text-center text-sm text-ink-muted;
   }
-  .empty-state-action {
+  .empty-state__action {
     @apply mt-2 inline-block text-accent hover:underline;
-  }
-
-  .detail-list {
-    @apply space-y-4;
-  }
-  .detail-value-code {
-    @apply font-mono text-ink;
   }
 
   /* Product detail as a plain divided strip, not a card — the movement
@@ -367,29 +363,36 @@
   .detail-strip {
     @apply flex flex-wrap gap-x-10 gap-y-4 border-b border-line pb-6;
   }
-  .detail-strip-item {
+  .detail-strip__item {
     @apply flex flex-col gap-1;
+  }
+  .detail-strip__value--code {
+    @apply font-mono text-ink;
   }
 
   .quick-form {
     @apply mb-6 flex flex-wrap items-end gap-3 border-b border-line pb-6;
   }
-  .quick-form-field {
+  .quick-form__field {
     @apply w-36;
   }
-  .quick-form-field-wide {
+  .quick-form__field--wide {
     @apply min-w-48 flex-1;
   }
+
   .section-title {
     @apply mt-8 mb-4 text-base font-semibold text-ink;
-  }
-  .page-sections {
-    @apply space-y-8;
   }
 
   .split-panel {
     @apply grid gap-6 md:grid-cols-[1fr_360px];
   }
+  /* .split-panel__list / __form carry no static styles of their own —
+     visibility on mobile is the literal `hidden md:block` conditionally
+     added in the .haml (see the -translate-x-full note above: a class a
+     JS/Ruby conditional toggles must stay a literal utility, not get
+     baked into a components-layer rule, or the utilities layer always
+     wins regardless of the media query). */
 
   .mobile-add-bar {
     @apply fixed inset-x-0 bottom-0 z-30 border-t border-line bg-surface/95 p-4 backdrop-blur md:hidden;

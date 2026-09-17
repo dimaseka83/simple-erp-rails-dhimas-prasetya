@@ -1,69 +1,69 @@
-- content_for :title, @presenter.name
+- content_for :title, @product_presenter.name
 
-.page-container-wide
-  .page-header
-    %h1.page-title= @presenter.name
-    = link_to t(".edit"), @presenter.edit_path, class: "btn-secondary"
+.page__container--wide
+  .page__header
+    %h1.page__title= @product_presenter.name
+    = link_to t(".edit"), @product_presenter.edit_path, class: "btn--secondary"
 
   - if flash[:notice]
-    .alert-notice= flash[:notice]
+    .alert--notice= flash[:notice]
   - if flash[:alert]
-    .alert-error= flash[:alert]
+    .alert--error= flash[:alert]
 
   .detail-strip
-    .detail-strip-item
-      %p.field-label= t("products.index.sku")
-      %p.detail-value-code= @presenter.sku
-    .detail-strip-item
-      %p.field-label= t("products.index.category")
-      %p= @presenter.category_name
-    .detail-strip-item
-      %p.field-label= t("products.index.unit")
-      %p= @presenter.unit_label
-    .detail-strip-item
-      %p.field-label= t(".cost_price")
-      %p.detail-value-code= @presenter.cost_price_formatted
-    .detail-strip-item
-      %p.field-label= t(".selling_price")
-      %p.detail-value-code= @presenter.selling_price_formatted
-    .detail-strip-item
-      %p.field-label= t(".current_stock")
-      %p{class: @presenter.stock_text_classes}= @presenter.stock_quantity_formatted
+    .detail-strip__item
+      %p.field__label= t("products.index.sku")
+      %p.detail-strip__value--code= @product_presenter.sku
+    .detail-strip__item
+      %p.field__label= t("products.index.category")
+      %p= @product_presenter.category_name
+    .detail-strip__item
+      %p.field__label= t("products.index.unit")
+      %p= @product_presenter.unit_label
+    .detail-strip__item
+      %p.field__label= t(".cost_price")
+      %p.detail-strip__value--code= @product_presenter.cost_price_formatted
+    .detail-strip__item
+      %p.field__label= t(".selling_price")
+      %p.detail-strip__value--code= @product_presenter.selling_price_formatted
+    .detail-strip__item
+      %p.field__label= t(".current_stock")
+      %p{class: @product_presenter.stock_text_classes}= @product_presenter.stock_quantity_formatted
 
   %h2.section-title= t(".record_movement")
   = form_with url: product_stock_movements_path(@product), class: "quick-form" do |form|
     = request_uuid_field
-    .quick-form-field
-      = label_tag :movement_type, t("stock_movements.form.movement_type_label"), class: "field-label"
-      = select_tag :movement_type, options_for_select(@presenter.movement_type_options), class: "select-input"
-    .quick-form-field
-      = label_tag :quantity, t("stock_movements.form.quantity_label"), class: "field-label"
-      = number_field_tag :quantity, nil, required: true, min: 0.01, step: "0.01", class: "field-input"
-    .quick-form-field-wide
-      = label_tag :note, t("stock_movements.form.note_label"), class: "field-label"
-      = text_field_tag :note, nil, class: "field-input"
-    = submit_tag t("stock_movements.form.submit"), class: "btn-submit"
+    .quick-form__field
+      = label_tag :movement_type, t("stock_movements.form.movement_type_label"), class: "field__label"
+      = select_tag :movement_type, options_for_select(@product_presenter.movement_type_options), class: "field__select"
+    .quick-form__field
+      = label_tag :quantity, t("stock_movements.form.quantity_label"), class: "field__label"
+      = number_field_tag :quantity, nil, required: true, min: 0.01, step: "0.01", class: "field__input"
+    .quick-form__field--wide
+      = label_tag :note, t("stock_movements.form.note_label"), class: "field__label"
+      = text_field_tag :note, nil, class: "field__input"
+    = submit_tag t("stock_movements.form.submit"), class: "btn--submit"
 
   %h2.section-title= t(".movement_history")
 
-  - if @presenter.movements_empty?
+  - if @product_presenter.movements_empty?
     .empty-state= t(".no_movements")
   - else
-    .table-container
-      %table.data-table
-        %thead.data-table-head
+    .table__container
+      %table.table
+        %thead.table__head
           %tr
-            %th.data-table-head-cell= t("stock_movements.index.date")
-            %th.data-table-head-cell= t("stock_movements.index.type")
-            %th.data-table-head-cell-numeric= t("stock_movements.index.quantity")
-            %th.data-table-head-cell= t("stock_movements.index.note")
-            %th.data-table-head-cell= t("stock_movements.index.by")
+            %th.table__head-cell= t("stock_movements.index.date")
+            %th.table__head-cell= t("stock_movements.index.type")
+            %th.table__head-cell--numeric= t("stock_movements.index.quantity")
+            %th.table__head-cell= t("stock_movements.index.note")
+            %th.table__head-cell= t("stock_movements.index.by")
         %tbody
-          - @presenter.movement_rows.each do |movement|
-            %tr.data-table-row
-              %td.data-table-cell= movement[:occurred_at]
-              %td.data-table-cell
+          - @product_presenter.movement_rows.each do |movement|
+            %tr.table__row
+              %td.table__cell= movement[:occurred_at]
+              %td.table__cell
                 %span{class: movement[:type_badge_classes]}= movement[:type_label]
-              %td.data-table-cell-numeric= movement[:quantity_formatted]
-              %td.data-table-cell= movement[:note]
-              %td.data-table-cell= movement[:user_email]
+              %td.table__cell--numeric= movement[:quantity_formatted]
+              %td.table__cell= movement[:note]
+              %td.table__cell= movement[:user_email]

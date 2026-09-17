@@ -1,30 +1,30 @@
 = form_with model: product, url: url, class: "space-y-5" do |form|
   = request_uuid_field
-  .form-grid
-    .field-group
-      = form.label :name, t("products.form.name_label"), class: "field-label"
-      = form.text_field :name, value: product.name, required: true, autofocus: true, class: "field-input"
+  .form__grid
+    .field__group
+      = form.label :name, t("products.form.name_label"), class: "field__label"
+      = form.text_field :name, value: product.name, required: true, autofocus: true, class: "field__input"
 
-    .field-group
-      = form.label :sku, t("products.form.sku_label"), class: "field-label"
-      = form.text_field :sku, value: product.sku, required: true, class: "field-input"
+    .field__group
+      = form.label :sku, t("products.form.sku_label"), class: "field__label"
+      = form.text_field :sku, value: product.sku, required: true, class: "field__input"
 
-    .field-group
-      = form.label :category_id, t("products.form.category_label"), class: "field-label"
-      = form.select :category_id, @presenter.category_options, { selected: product.category_id }, class: "select-input"
+    .field__group
+      = form.label :category_id, t("products.form.category_label"), class: "field__label"
+      = form.select :category_id, @product_presenter.category_options, { selected: product.category_id }, class: "field__select"
 
-    .field-group
-      = form.label :unit, t("products.form.unit_label"), class: "field-label"
-      = form.select :unit, @presenter.unit_options, { selected: product.unit }, class: "select-input"
+    .field__group
+      = form.label :unit, t("products.form.unit_label"), class: "field__label"
+      = form.select :unit, @product_presenter.unit_options, { selected: product.unit }, class: "field__select"
 
-    .field-group
-      = form.label :cost_price, t("products.form.cost_price_label"), class: "field-label"
-      = form.number_field :cost_price, value: product.cost_price, required: true, min: 0, step: "0.01", class: "field-input"
+    .field__group
+      = form.label :cost_price, t("products.form.cost_price_label"), class: "field__label"
+      = form.number_field :cost_price, value: product.cost_price, required: true, min: 0, step: "0.01", class: "field__input"
 
-    .field-group
-      = form.label :selling_price, t("products.form.selling_price_label"), class: "field-label"
-      = form.number_field :selling_price, value: product.selling_price, required: true, min: 0, step: "0.01", class: "field-input"
+    .field__group
+      = form.label :selling_price, t("products.form.selling_price_label"), class: "field__label"
+      = form.number_field :selling_price, value: product.selling_price, required: true, min: 0, step: "0.01", class: "field__input"
 
-  .form-actions
-    = link_to t("products.index.heading"), products_path, class: "btn-secondary"
-    = form.submit t("products.form.submit"), class: "btn-submit"
+  .form__actions
+    = link_to t("products.index.heading"), products_path, class: "btn--secondary"
+    = form.submit t("products.form.submit"), class: "btn--submit"

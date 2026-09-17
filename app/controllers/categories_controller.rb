@@ -4,7 +4,7 @@ class CategoriesController < ApplicationController
   def index
     @categories = Category.order(:name)
     @category = params[:edit].present? ? Category.find(params[:edit]) : Category.new
-    @presenter = CategoryPresenter.new(view_context, category: @category)
+    @category_presenter = CategoryPresenter.new(view_context, category: @category)
     @show_form = params[:new].present? || params[:edit].present?
   end
 
@@ -35,7 +35,7 @@ class CategoriesController < ApplicationController
     def render_form_errors(category)
       @categories = Category.order(:name)
       @category = category
-      @presenter = CategoryPresenter.new(view_context, category: category)
+      @category_presenter = CategoryPresenter.new(view_context, category: category)
       @show_form = true
       render :index, status: :unprocessable_entity
     end

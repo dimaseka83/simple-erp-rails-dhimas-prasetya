@@ -1,17 +1,17 @@
-.auth-page
-  .auth-panel
+.auth__page
+  .auth__panel
     %span.brand-mark= t("app_name")
-    %h1.auth-card-heading= t(".heading")
+    %h1.auth__heading= t(".heading")
 
     - if flash[:alert]
-      .alert-error= flash[:alert]
+      .alert--error= flash[:alert]
 
-    = form_with url: password_path(params[:token]), method: :put, class: "auth-form" do |form|
+    = form_with url: password_path(params[:token]), method: :put, class: "auth__form" do |form|
       = request_uuid_field
       = form.password_field :password, required: true, autocomplete: "new-password", maxlength: 72,
         placeholder: t(".password_placeholder"),
-        class: "field-input"
+        class: "field__input"
       = form.password_field :password_confirmation, required: true, autocomplete: "new-password", maxlength: 72,
         placeholder: t(".password_confirmation_placeholder"),
-        class: "field-input"
-      = form.submit t(".submit"), class: "btn-primary"
+        class: "field__input"
+      = form.submit t(".submit"), class: "btn--primary"
