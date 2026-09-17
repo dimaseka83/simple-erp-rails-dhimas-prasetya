@@ -25,32 +25,28 @@
 
     .nav__group
       %p.nav__group-label= t("nav.procurement")
-      %span.nav-link--soon
+      = link_to suppliers_path, class: @layout_presenter.nav_suppliers_link_classes do
         %svg.nav-link__icon{xmlns: "http://www.w3.org/2000/svg", viewbox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width" => "1.8", "stroke-linecap" => "round", "stroke-linejoin" => "round"}
           %path{d: "M3 5h13l3 5v9h-3M16 19H3V5"}
           %circle{cx: "7", cy: "19", r: "1.7"}
           %circle{cx: "17", cy: "19", r: "1.7"}
         = t("nav.suppliers")
-        %span.nav-link__badge= t("nav.soon")
-      %span.nav-link--soon
+      = link_to purchase_orders_path, class: @layout_presenter.nav_purchase_orders_link_classes do
         %svg.nav-link__icon{xmlns: "http://www.w3.org/2000/svg", viewbox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width" => "1.8", "stroke-linecap" => "round", "stroke-linejoin" => "round"}
           %path{d: "M9 2h6l1 4H8l1-4zM5 6h14l-1 14H6L5 6zM9 10v6M15 10v6"}
         = t("nav.purchase_orders")
-        %span.nav-link__badge= t("nav.soon")
 
     .nav__group
       %p.nav__group-label= t("nav.sales")
-      %span.nav-link--soon
+      = link_to customers_path, class: @layout_presenter.nav_customers_link_classes do
         %svg.nav-link__icon{xmlns: "http://www.w3.org/2000/svg", viewbox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width" => "1.8", "stroke-linecap" => "round", "stroke-linejoin" => "round"}
           %path{d: "M4 4h2l2.4 12.4a2 2 0 0 0 2 1.6h7.2a2 2 0 0 0 2-1.6L21 8H7"}
           %circle{cx: "9", cy: "20", r: "1.3"}
           %circle{cx: "17", cy: "20", r: "1.3"}
         = t("nav.customers")
-        %span.nav-link__badge= t("nav.soon")
-      %span.nav-link--soon
+      = link_to sales_orders_path, class: @layout_presenter.nav_sales_orders_link_classes do
         %svg.nav-link__icon{xmlns: "http://www.w3.org/2000/svg", viewbox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width" => "1.8", "stroke-linecap" => "round", "stroke-linejoin" => "round"}
           %path{d: "M4 4h16v4H4zM6 8v12h12V8M10 12h4"}
         = t("nav.sales_orders")
-        %span.nav-link__badge= t("nav.soon")
 
 .sidebar__backdrop.hidden{class: "md:hidden", "data-sidebar-backdrop" => true}

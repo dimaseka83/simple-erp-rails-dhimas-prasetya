@@ -1,0 +1,12 @@
+= form_with model: purchase_order, url: @purchase_order_presenter.form_url, class: "space-y-5" do |form|
+  = request_uuid_field
+  .field__group
+    = form.label :supplier_id, t("purchase_orders.form.supplier_label"), class: "field__label"
+    = form.select :supplier_id, @purchase_order_presenter.supplier_options, { selected: @purchase_order_presenter.selected_supplier_id }, class: "field__select"
+
+  %h2.section-title= t("purchase_orders.show.items")
+  %div{"data-vue-component" => "PurchaseOrderForm", "data-props" => @purchase_order_presenter.item_form_labels_json}
+
+  .form__actions
+    = link_to t("purchase_orders.form.cancel"), purchase_orders_path, class: "btn--secondary"
+    = form.submit t("purchase_orders.form.submit"), class: "btn--submit"

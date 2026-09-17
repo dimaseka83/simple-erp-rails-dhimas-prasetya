@@ -1,0 +1,8 @@
+- content_for :title, @purchase_order_presenter.form_heading
+
+.page__container--wide
+  .page__header
+    %h1.page__title= @purchase_order_presenter.form_heading
+
+  .panel
+    = render "form", purchase_order: @purchase_order

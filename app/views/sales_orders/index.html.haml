@@ -1,0 +1,33 @@
+- content_for :title, t(".heading")
+
+.page__container--wide
+  .page__header
+    %h1.page__title= t(".heading")
+    = link_to t(".add"), new_sales_order_path, class: "btn--submit"
+
+  - if flash[:notice]
+    .alert--notice= flash[:notice]
+
+  - if @sales_order_presenter.sales_orders_empty?
+    .empty-state= t(".empty")
+  - else
+    .table__container
+      %table.table
+        %thead.table__head
+          %tr
+            %th.table__head-cell= t(".number")
+            %th.table__head-cell= t(".customer")
+            %th.table__head-cell= t(".status")
+            %th.table__head-cell--numeric= t(".total")
+            %th.table__head-cell= t(".date")
+        %tbody
+          - @sales_order_presenter.rows.each do |sales_order|
+            %tr.table__row
+              %td.table__cell--code= link_to "##{sales_order[:id]}", sales_order[:path], class: "link-accent"
+              %td.table__cell--primary= sales_order[:customer_name]
+              %td.table__cell
+                %span{class: sales_order[:status_badge_classes]}= sales_order[:status_label]
+              %td.table__cell--numeric= sales_order[:total_formatted]
+              %td.table__cell= sales_order[:date_formatted]
+
+    = render "shared/pagination"

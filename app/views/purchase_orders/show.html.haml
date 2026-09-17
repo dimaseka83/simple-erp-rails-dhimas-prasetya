@@ -1,0 +1,48 @@
+- content_for :title, "PO ##{@purchase_order_presenter.id}"
+
+.page__container--wide
+  .page__header
+    %h1.page__title= "PO ##{@purchase_order_presenter.id}"
+    .toolbar
+      - if @purchase_order_presenter.draft?
+        = link_to t(".edit"), @purchase_order_presenter.edit_path, class: "btn--secondary"
+        = button_to t(".mark_as_ordered"), mark_as_ordered_purchase_order_path(@purchase_order_presenter.id), method: :patch, class: "btn--submit"
+      - if @purchase_order_presenter.ordered?
+        = button_to t(".mark_as_received"), mark_as_received_purchase_order_path(@purchase_order_presenter.id), method: :patch, class: "btn--submit"
+
+  - if flash[:notice]
+    .alert--notice= flash[:notice]
+  - if flash[:alert]
+    .alert--error= flash[:alert]
+
+  .detail-strip
+    .detail-strip__item
+      %p.field__label= t(".supplier")
+      %p= @purchase_order_presenter.supplier_name
+    .detail-strip__item
+      %p.field__label= t(".status")
+      %span{class: @purchase_order_presenter.status_badge_classes}= @purchase_order_presenter.status_label
+    .detail-strip__item
+      %p.field__label= t(".date")
+      %p= @purchase_order_presenter.date_formatted
+
+  %h2.section-title= t(".items")
+  .table__container
+    %table.table
+      %thead.table__head
+        %tr
+          %th.table__head-cell= t(".product")
+          %th.table__head-cell--numeric= t(".quantity")
+          %th.table__head-cell--numeric= t(".unit_cost")
+          %th.table__head-cell--numeric= t(".subtotal")
+      %tbody
+        - @purchase_order_presenter.item_rows.each do |item|
+          %tr.table__row
+            %td.table__cell--primary= item[:product_name]
+            %td.table__cell--numeric= item[:quantity]
+            %td.table__cell--numeric= item[:unit_cost_formatted]
+            %td.table__cell--numeric= item[:subtotal_formatted]
+      %tfoot
+        %tr.table__row
+          %td.table__cell{colspan: 3}
+          %td.table__cell--numeric= @purchase_order_presenter.total_formatted

@@ -135,3 +135,146 @@ id:
     errors:
       invalid_quantity: "Jumlah harus lebih dari nol."
       insufficient_stock: "Stok tidak cukup untuk pergerakan ini."
+  suppliers:
+    index:
+      heading: "Supplier"
+      add: "Tambah supplier"
+      empty: "Belum ada supplier."
+      name: "Nama"
+      contact: "Kontak"
+      edit: "Ubah"
+      new_heading: "Supplier baru"
+      edit_heading: "Ubah supplier"
+    create:
+      notice: "Supplier berhasil dibuat."
+    update:
+      notice: "Supplier berhasil diperbarui."
+    form:
+      name_label: "Nama"
+      contact_label: "Kontak"
+      address_label: "Alamat"
+      submit: "Simpan supplier"
+      cancel: "Batal"
+  customers:
+    index:
+      heading: "Pelanggan"
+      add: "Tambah pelanggan"
+      empty: "Belum ada pelanggan."
+      name: "Nama"
+      contact: "Kontak"
+      edit: "Ubah"
+      new_heading: "Pelanggan baru"
+      edit_heading: "Ubah pelanggan"
+    create:
+      notice: "Pelanggan berhasil dibuat."
+    update:
+      notice: "Pelanggan berhasil diperbarui."
+    form:
+      name_label: "Nama"
+      contact_label: "Kontak"
+      submit: "Simpan pelanggan"
+      cancel: "Batal"
+  purchase_orders:
+    index:
+      heading: "Purchase order"
+      add: "Purchase order baru"
+      empty: "Belum ada purchase order."
+      number: "PO"
+      supplier: "Supplier"
+      status: "Status"
+      total: "Total"
+      date: "Tanggal"
+    new:
+      heading: "Purchase order baru"
+    edit:
+      heading: "Ubah purchase order"
+    show:
+      supplier: "Supplier"
+      status: "Status"
+      date: "Tanggal"
+      edit: "Ubah"
+      mark_as_ordered: "Tandai dipesan"
+      mark_as_received: "Tandai diterima"
+      items: "Item"
+      product: "Produk"
+      quantity: "Jumlah"
+      unit_cost: "Harga beli"
+      subtotal: "Subtotal"
+      total: "Total"
+    create:
+      notice: "Purchase order berhasil dibuat."
+    update:
+      notice: "Purchase order berhasil diperbarui."
+    mark_as_ordered:
+      notice: "Purchase order ditandai sebagai dipesan."
+    mark_as_received:
+      notice: "Purchase order diterima — stok diperbarui."
+    form:
+      supplier_label: "Supplier"
+      add_item: "Tambah item"
+      remove_item: "Hapus"
+      submit: "Simpan purchase order"
+      cancel: "Batal"
+    status:
+      draft: "Draft"
+      ordered: "Dipesan"
+      received: "Diterima"
+    errors:
+      no_items: "Tambahkan minimal satu item."
+      not_draft: "Hanya purchase order draft yang bisa diubah."
+      not_ordered: "Hanya purchase order berstatus dipesan yang bisa diterima."
+  sales_orders:
+    index:
+      heading: "Sales order"
+      add: "Sales order baru"
+      empty: "Belum ada sales order."
+      number: "SO"
+      customer: "Pelanggan"
+      status: "Status"
+      total: "Total"
+      date: "Tanggal"
+    new:
+      heading: "Sales order baru"
+    edit:
+      heading: "Ubah sales order"
+    show:
+      customer: "Pelanggan"
+      status: "Status"
+      date: "Tanggal"
+      edit: "Ubah"
+      confirm: "Konfirmasi order"
+      invoice: "Lihat invoice"
+      items: "Item"
+      product: "Produk"
+      quantity: "Jumlah"
+      unit_price: "Harga jual"
+      subtotal: "Subtotal"
+      total: "Total"
+    invoice:
+      heading: "Invoice"
+      print: "Cetak"
+      billed_to: "Ditagihkan kepada"
+      date: "Tanggal"
+      product: "Produk"
+      quantity: "Jumlah"
+      unit_price: "Harga jual"
+      subtotal: "Subtotal"
+      total: "Total"
+    create:
+      notice: "Sales order berhasil dibuat."
+    update:
+      notice: "Sales order berhasil diperbarui."
+    confirm:
+      notice: "Sales order dikonfirmasi — stok diperbarui."
+    form:
+      customer_label: "Pelanggan"
+      add_item: "Tambah item"
+      remove_item: "Hapus"
+      submit: "Simpan sales order"
+      cancel: "Batal"
+    status:
+      draft: "Draft"
+      confirmed: "Dikonfirmasi"
+    errors:
+      no_items: "Tambahkan minimal satu item."
+      not_draft: "Hanya sales order draft yang bisa diubah."

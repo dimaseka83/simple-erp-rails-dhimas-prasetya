@@ -1,0 +1,38 @@
+- content_for :title, t(".heading")
+
+.page__container--wide
+  .page__header
+    %h1.page__title= t(".heading")
+    = link_to t(".add"), customers_path(new: true), class: "btn--submit hidden md:inline-flex"
+
+  - if flash[:notice]
+    .alert--notice= flash[:notice]
+
+  .split-panel
+    .split-panel__list{class: ("hidden md:block" if @show_form)}
+      - if @customers.empty?
+        .empty-state= t(".empty")
+      - else
+        .table__container
+          %table.table
+            %thead.table__head
+              %tr
+                %th.table__head-cell= t(".name")
+                %th.table__head-cell= t(".contact")
+                %th.table__head-cell
+            %tbody
+              - @customers.each do |customer|
+                %tr.table__row
+                  %td.table__cell--primary= customer.name
+                  %td.table__cell= customer.contact
+                  %td.table__cell= link_to t(".edit"), customers_path(edit: customer.id), class: "link-accent"
+
+    .split-panel__form{class: ("hidden md:block" unless @show_form)}
+      .panel
+        .panel__header
+          %h2.panel__title= @customer_presenter.form_heading
+        = render "form", customer: @customer
+
+  - unless @show_form
+    .mobile-add-bar
+      = link_to t(".add"), customers_path(new: true), class: "btn--primary"
