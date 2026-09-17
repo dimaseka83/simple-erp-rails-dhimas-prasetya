@@ -1,5 +1,9 @@
 id:
   app_name: "Simple ERP"
+  pagination:
+    prev: "Sebelumnya"
+    next: "Selanjutnya"
+    status: "Halaman %{page} dari %{total}"
   sessions:
     create:
       invalid_credentials: "Email atau kata sandi salah."
@@ -76,6 +80,7 @@ id:
       add: "Tambah produk"
       manage_categories: "Kelola kategori"
       empty: "Belum ada produk."
+      search_placeholder: "Cari nama atau SKU"
       name: "Nama"
       sku: "SKU"
       category: "Kategori"

@@ -10,6 +10,9 @@
   - if flash[:notice]
     .alert-notice= flash[:notice]
 
+  = form_with url: products_path, method: :get, class: "search-bar" do |form|
+    = form.text_field :q, value: params[:q], placeholder: t(".search_placeholder"), class: "search-input"
+
   - if @presenter_list.empty?
     .empty-state
       %p= t(".empty")
@@ -37,3 +40,5 @@
               %td{class: "data-table-cell-numeric #{product.stock_text_classes}"}
                 = product.stock_quantity_formatted
               %td.data-table-cell= link_to t("categories.index.edit"), product.edit_path, class: "link-accent"
+
+    = render "shared/pagination"

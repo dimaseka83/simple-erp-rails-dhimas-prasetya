@@ -76,8 +76,10 @@
   .auth-page {
     @apply relative flex min-h-screen items-center justify-center bg-bg px-6 py-12 font-sans;
   }
-  .auth-card {
-    @apply relative w-full max-w-md rounded border border-line bg-surface px-8 py-10;
+  /* No card box: a plain block on the page background, divided from the
+     form by a rule — not a floating rounded-shadow card, see design.md §8. */
+  .auth-panel {
+    @apply relative w-full max-w-sm;
   }
 
   .toolbar {
@@ -114,20 +116,14 @@
     @apply text-lg font-semibold tracking-tight text-ink;
   }
 
-  .auth-card-header {
-    @apply text-center;
-  }
   .auth-card-heading {
     @apply mt-4 text-2xl font-semibold text-ink;
-  }
-  .auth-card-title {
-    @apply text-2xl font-semibold text-ink;
   }
   .auth-card-subtitle {
     @apply mt-1 text-sm text-ink-muted;
   }
   .auth-form {
-    @apply mt-6 space-y-5;
+    @apply mt-6 space-y-5 border-t border-line pt-6;
   }
 
   .field-group {
@@ -338,6 +334,20 @@
     @apply font-mono tabular-nums text-danger;
   }
 
+  .search-input {
+    @apply w-full max-w-xs rounded border border-line bg-surface px-3 py-2 text-sm text-ink placeholder:text-ink-muted focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent;
+  }
+  .search-bar {
+    @apply mb-4;
+  }
+
+  .pagination {
+    @apply mt-4 flex items-center justify-between;
+  }
+  .pagination-status {
+    @apply text-sm text-ink-muted;
+  }
+
   .empty-state {
     @apply py-12 text-center text-sm text-ink-muted;
   }
@@ -351,6 +361,28 @@
   .detail-value-code {
     @apply font-mono text-ink;
   }
+
+  /* Product detail as a plain divided strip, not a card — the movement
+     history table is the page's real component, see design.md §4/§6b. */
+  .detail-strip {
+    @apply flex flex-wrap gap-x-10 gap-y-4 border-b border-line pb-6;
+  }
+  .detail-strip-item {
+    @apply flex flex-col gap-1;
+  }
+
+  .quick-form {
+    @apply mb-6 flex flex-wrap items-end gap-3 border-b border-line pb-6;
+  }
+  .quick-form-field {
+    @apply w-36;
+  }
+  .quick-form-field-wide {
+    @apply min-w-48 flex-1;
+  }
+  .section-title {
+    @apply mt-8 mb-4 text-base font-semibold text-ink;
+  }
   .page-sections {
     @apply space-y-8;
   }
@@ -360,9 +392,6 @@
   }
 
   .mobile-add-bar {
-    @apply fixed inset-x-0 bottom-0 z-30 flex justify-center border-t border-line bg-surface/90 p-4 backdrop-blur md:hidden;
-  }
-  .mobile-add-button {
-    @apply grid size-12 place-items-center rounded-full bg-accent text-white;
+    @apply fixed inset-x-0 bottom-0 z-30 border-t border-line bg-surface/95 p-4 backdrop-blur md:hidden;
   }
 }

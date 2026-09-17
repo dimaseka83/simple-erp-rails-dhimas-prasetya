@@ -1,9 +1,8 @@
 .auth-page
-  .auth-card
-    .auth-card-header
-      %span.brand-mark= t("app_name")
-      %h1.auth-card-heading= t(".heading")
-      %p.auth-card-subtitle= t(".subheading")
+  .auth-panel
+    %span.brand-mark= t("app_name")
+    %h1.auth-card-heading= t(".heading")
+    %p.auth-card-subtitle= t(".subheading")
 
     - if flash[:alert]
       .alert-error= flash[:alert]

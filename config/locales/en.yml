@@ -1,5 +1,9 @@
 en:
   app_name: "Simple ERP"
+  pagination:
+    prev: "Previous"
+    next: "Next"
+    status: "Page %{page} of %{total}"
   sessions:
     create:
       invalid_credentials: "Try another email address or password."
@@ -76,6 +80,7 @@ en:
       add: "Add product"
       manage_categories: "Manage categories"
       empty: "No products yet."
+      search_placeholder: "Search by name or SKU"
       name: "Name"
       sku: "SKU"
       category: "Category"

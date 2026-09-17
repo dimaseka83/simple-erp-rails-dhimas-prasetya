@@ -33,6 +33,4 @@
 
   - unless @show_form
     .mobile-add-bar
-      = link_to categories_path(new: true), class: "mobile-add-button", "aria-label" => t(".add") do
-        %svg.icon-md{xmlns: "http://www.w3.org/2000/svg", viewbox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width" => "2", "stroke-linecap" => "round", "stroke-linejoin" => "round"}
-          %path{d: "M12 5v14M5 12h14"}
+      = link_to t(".add"), categories_path(new: true), class: "btn-primary"

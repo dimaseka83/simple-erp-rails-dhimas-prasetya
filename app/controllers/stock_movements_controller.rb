@@ -3,7 +3,8 @@ class StockMovementsController < ApplicationController
   protect_from_duplicate_requests only: :create
 
   def index
-    movements = StockMovement.includes(:product, :user).order(created_at: :desc).limit(100)
+    movements = StockMovement.includes(:product, :user).order(created_at: :desc)
+    movements = paginate(movements)
     @presenter_list = movements.map { |movement| StockMovementPresenter.new(view_context, movement: movement) }
   end
 

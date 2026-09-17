@@ -3,7 +3,8 @@ class ProductsController < ApplicationController
   protect_from_duplicate_requests only: %i[ create update ]
 
   def index
-    products = Product.includes(:category).order(:name)
+    products = Product.includes(:category).search(params[:q]).order(:name)
+    products = paginate(products)
     @presenter_list = products.map { |product| ProductPresenter.new(view_context, product: product) }
   end
 
