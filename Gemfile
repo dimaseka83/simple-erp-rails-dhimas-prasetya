@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 # Pin below 3.0: that release made JSON.parse keyword-only, which breaks
 # Rails 8.1's own cookie/session JSON decoding (positional opts hash).
-gem "json", "~> 2.9"
+gem "json", "~> 3.0"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 8.1.3", ">= 8.1.3.1"
