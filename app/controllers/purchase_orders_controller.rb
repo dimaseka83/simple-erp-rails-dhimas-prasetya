@@ -3,7 +3,7 @@ class PurchaseOrdersController < ApplicationController
   protect_from_duplicate_requests only: %i[ create update mark_as_ordered mark_as_received ]
 
   def index
-    purchase_orders = paginate(PurchaseOrder.includes(:supplier, :purchase_order_items).order(created_at: :desc))
+    purchase_orders = paginate(PurchaseOrder.includes(:supplier, :purchase_order_items).search(params[:q]).order(created_at: :desc))
     @purchase_order_presenter = PurchaseOrderPresenter.new(view_context, purchase_orders: purchase_orders)
   end
 
@@ -55,14 +55,17 @@ class PurchaseOrdersController < ApplicationController
 
     def purchase_order_params
       params.require(:purchase_order)
-            .permit(:supplier_id, purchase_order_items_attributes: %i[ product_id quantity unit_cost ])
-            .to_h.symbolize_keys
+            .permit(:supplier_id,
+              purchase_order_items_attributes: %i[ product_id quantity unit_cost ],
+              new_supplier: %i[ name contact address ])
+            .to_h.deep_symbolize_keys
     end
 
     def form_presenter(purchase_order)
       presenter = PurchaseOrderPresenter.new(view_context, purchase_order: purchase_order, suppliers: Supplier.order(:name), products: Product.order(:name))
       gon.products = presenter.product_options_for_vue
       gon.initial_items = presenter.initial_items_for_vue
+      gon.currency_format = presenter.currency_format
       presenter
     end
 

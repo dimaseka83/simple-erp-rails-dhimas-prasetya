@@ -2,7 +2,7 @@ class CategoriesController < ApplicationController
   protect_from_duplicate_requests only: %i[ create update ]
 
   def index
-    @categories = Category.order(:name)
+    @categories = Category.search(params[:q]).order(:name)
     @category = params[:edit].present? ? Category.find(params[:edit]) : Category.new
     @category_presenter = CategoryPresenter.new(view_context, category: @category)
     @show_form = params[:new].present? || params[:edit].present?

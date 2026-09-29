@@ -1,4 +1,19 @@
 id:
+  date:
+    abbr_month_names:
+      - ~
+      - "Jan"
+      - "Feb"
+      - "Mar"
+      - "Apr"
+      - "Mei"
+      - "Jun"
+      - "Jul"
+      - "Agu"
+      - "Sep"
+      - "Okt"
+      - "Nov"
+      - "Des"
   app_name: "Simple ERP"
   pagination:
     prev: "Sebelumnya"
@@ -53,6 +68,24 @@ id:
       heading: "Dashboard"
       subheading: "Modul inventory, procurement, dan sales akan tampil di sini."
       sign_out: "Keluar"
+      total_stock: "Total stok tersedia"
+      purchase_orders_this_month: "Purchase order bulan ini"
+      sales_orders_this_month: "Sales order bulan ini"
+      monthly_sales: "Pendapatan penjualan per bulan"
+      top_products: "Produk terlaris"
+      top_products_empty: "Belum ada penjualan terkonfirmasi."
+  settings:
+    edit:
+      heading: "Pengaturan"
+      currency_label: "Mata uang"
+      currency_hint: "Dipakai untuk format harga di seluruh aplikasi — produk, purchase order, sales order."
+      submit: "Simpan pengaturan"
+    update:
+      notice: "Pengaturan berhasil disimpan."
+    currencies:
+      idr: "Rupiah Indonesia"
+      usd: "Dolar AS"
+      eur: "Euro"
   units:
     pcs: "pcs"
     kg: "kg"
@@ -62,6 +95,7 @@ id:
       heading: "Kategori"
       add: "Tambah kategori"
       empty: "Belum ada kategori."
+      search_placeholder: "Cari nama"
       name: "Nama"
       edit: "Ubah"
       new_heading: "Kategori baru"
@@ -116,6 +150,7 @@ id:
     index:
       heading: "Riwayat pergerakan stok"
       empty: "Belum ada pergerakan stok."
+      search_placeholder: "Cari produk atau catatan"
       product: "Produk"
       type: "Tipe"
       quantity: "Jumlah"
@@ -140,6 +175,7 @@ id:
       heading: "Supplier"
       add: "Tambah supplier"
       empty: "Belum ada supplier."
+      search_placeholder: "Cari nama atau kontak"
       name: "Nama"
       contact: "Kontak"
       edit: "Ubah"
@@ -160,6 +196,7 @@ id:
       heading: "Pelanggan"
       add: "Tambah pelanggan"
       empty: "Belum ada pelanggan."
+      search_placeholder: "Cari nama atau kontak"
       name: "Nama"
       contact: "Kontak"
       edit: "Ubah"
@@ -179,6 +216,7 @@ id:
       heading: "Purchase order"
       add: "Purchase order baru"
       empty: "Belum ada purchase order."
+      search_placeholder: "Cari nomor PO atau supplier"
       number: "PO"
       supplier: "Supplier"
       status: "Status"
@@ -211,6 +249,11 @@ id:
       notice: "Purchase order diterima — stok diperbarui."
     form:
       supplier_label: "Supplier"
+      add_supplier: "+ Tambah supplier baru"
+      add_supplier_hint: "Isi ini untuk membuat supplier baru sekaligus dengan purchase order ini — kosongkan untuk pakai supplier yang dipilih di atas."
+      new_supplier_name_label: "Nama supplier baru"
+      new_supplier_contact_label: "Kontak"
+      new_supplier_address_label: "Alamat"
       add_item: "Tambah item"
       remove_item: "Hapus"
       submit: "Simpan purchase order"
@@ -228,6 +271,7 @@ id:
       heading: "Sales order"
       add: "Sales order baru"
       empty: "Belum ada sales order."
+      search_placeholder: "Cari nomor SO atau pelanggan"
       number: "SO"
       customer: "Pelanggan"
       status: "Status"
@@ -268,6 +312,10 @@ id:
       notice: "Sales order dikonfirmasi — stok diperbarui."
     form:
       customer_label: "Pelanggan"
+      add_customer: "+ Tambah pelanggan baru"
+      add_customer_hint: "Isi ini untuk membuat pelanggan baru sekaligus dengan sales order ini — kosongkan untuk pakai pelanggan yang dipilih di atas."
+      new_customer_name_label: "Nama pelanggan baru"
+      new_customer_contact_label: "Kontak"
       add_item: "Tambah item"
       remove_item: "Hapus"
       submit: "Simpan sales order"

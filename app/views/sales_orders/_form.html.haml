@@ -4,6 +4,17 @@
     = form.label :customer_id, t("sales_orders.form.customer_label"), class: "field__label"
     = form.select :customer_id, @sales_order_presenter.customer_options, { selected: @sales_order_presenter.selected_customer_id }, class: "field__select"
 
+    %details.inline-add
+      %summary.inline-add__trigger= t("sales_orders.form.add_customer")
+      .inline-add__body
+        %p.field__hint= t("sales_orders.form.add_customer_hint")
+        .field__group
+          = label_tag "sales_order_new_customer_name", t("sales_orders.form.new_customer_name_label"), class: "field__label"
+          = text_field_tag "sales_order[new_customer][name]", nil, id: "sales_order_new_customer_name", class: "field__input"
+        .field__group
+          = label_tag "sales_order_new_customer_contact", t("sales_orders.form.new_customer_contact_label"), class: "field__label"
+          = text_field_tag "sales_order[new_customer][contact]", nil, id: "sales_order_new_customer_contact", class: "field__input"
+
   %h2.section-title= t("sales_orders.show.items")
   %div{"data-vue-component" => "SalesOrderForm", "data-props" => @sales_order_presenter.item_form_labels_json}
 

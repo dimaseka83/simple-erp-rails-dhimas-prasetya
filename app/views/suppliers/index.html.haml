@@ -10,6 +10,9 @@
 
   .split-panel
     .split-panel__list{class: ("hidden md:block" if @show_form)}
+      = form_with url: suppliers_path, method: :get, class: "search-bar" do |form|
+        = form.text_field :q, value: params[:q], placeholder: t(".search_placeholder"), class: "search-bar__input"
+
       - if @suppliers.empty?
         .empty-state= t(".empty")
       - else

@@ -1,5 +1,30 @@
 - content_for :title, t(".heading")
 
-.page__container
+.page__container--wide
   %p.page__meta= @dashboard_presenter.signed_in_as
   %p.page__subtitle= t(".subheading")
+
+  .stat-grid
+    .stat
+      %p.stat__value= @dashboard_presenter.total_stock_quantity_formatted
+      %p.stat__label= t(".total_stock")
+    .stat
+      %p.stat__value= @dashboard_presenter.purchase_orders_this_month_count
+      %p.stat__label= t(".purchase_orders_this_month")
+    .stat
+      %p.stat__value= @dashboard_presenter.sales_orders_this_month_count
+      %p.stat__label= t(".sales_orders_this_month")
+
+  .chart-grid
+    .panel
+      .panel__header
+        %h2.panel__title= t(".monthly_sales")
+      .chart{data: { chart: "monthly-sales", series_label: t(".monthly_sales") }}
+
+    .panel
+      .panel__header
+        %h2.panel__title= t(".top_products")
+      - if @dashboard_presenter.top_products_empty?
+        .empty-state= t(".top_products_empty")
+      - else
+        .chart{data: { chart: "top-products", series_label: t(".top_products") }}

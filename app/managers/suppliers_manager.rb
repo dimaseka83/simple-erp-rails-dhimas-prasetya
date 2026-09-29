@@ -1,6 +1,6 @@
 class SuppliersManager < ApplicationManager
   class << self
-    def create(name:, contact:, address:)
+    def create(name:, contact: nil, address: nil)
       supplier = Supplier.new(name: name, contact: contact, address: address)
       supplier.save ? success(supplier) : invalid(supplier)
     end

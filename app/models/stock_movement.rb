@@ -7,4 +7,10 @@ class StockMovement < ApplicationRecord
   enum :movement_type, { stock_in: "in", stock_out: "out" }, validate: true
 
   validates :quantity, numericality: { greater_than: 0 }
+
+  scope :search, ->(query) {
+    next all if query.blank?
+    like = "%#{sanitize_sql_like(query)}%"
+    joins(:product).where("products.name LIKE :q OR stock_movements.note LIKE :q", q: like)
+  }
 end
