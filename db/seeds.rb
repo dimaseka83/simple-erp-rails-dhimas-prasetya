@@ -3,7 +3,7 @@ admin = User.find_or_create_by!(email_address: "admin@simple-erp.test") do |user
   user.password_confirmation = "password123"
 end
 
-["General", "Raw Materials", "Finished Goods"].each do |name|
+[ "General", "Raw Materials", "Finished Goods" ].each do |name|
   Category.find_or_create_by!(name: name)
 end
 
@@ -21,7 +21,7 @@ products_seed = [
   { name: "Minyak Goreng 2L", sku: "MYK-2L", category: "Finished Goods", unit: "pcs", cost_price: 32_000, selling_price: 39_000 },
   { name: "Gula Pasir 1kg", sku: "GLA-1KG", category: "Finished Goods", unit: "kg", cost_price: 13_000, selling_price: 16_000 },
   { name: "Tepung Terigu 1kg", sku: "TPG-1KG", category: "Raw Materials", unit: "kg", cost_price: 9_500, selling_price: 12_000 },
-  { name: "Kardus Packing", sku: "KRD-BOX", category: "General", unit: "box", cost_price: 3_000, selling_price: 4_500 },
+  { name: "Kardus Packing", sku: "KRD-BOX", category: "General", unit: "box", cost_price: 3_000, selling_price: 4_500 }
 ]
 
 products = products_seed.map do |attrs|
