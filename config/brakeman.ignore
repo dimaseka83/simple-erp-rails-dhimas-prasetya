@@ -1,0 +1,99 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "0c16e33b8f0f720b162b78116a7d1596ade4560dcca15e118c25ee9123244250",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/purchase_orders/show.html.haml",
+      "line": 24,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "::Haml::AttributeBuilder.build_class(true, PurchaseOrderPresenter.new(view_context, :purchase_order => PurchaseOrder.find(params[:id])).status_badge_classes)",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "PurchaseOrdersController",
+          "method": "show",
+          "line": 12,
+          "file": "app/controllers/purchase_orders_controller.rb",
+          "rendered": {
+            "name": "purchase_orders/show",
+            "file": "app/views/purchase_orders/show.html.haml"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "purchase_orders/show"
+      },
+      "user_input": "PurchaseOrder.find(params[:id])",
+      "confidence": "Weak",
+      "note": "False positive: class string comes from a presenter constant hash, not user input."
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "1caef6104cb6ee9f68a431a92a035aa387c0750fc09452e96efb3bb7c9e9c69e",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/products/show.html.haml",
+      "line": 31,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "::Haml::AttributeBuilder.build_class(true, ProductPresenter.new(view_context, :product => Product.find(params[:id]), :movements => Product.find(params[:id]).stock_movements.includes(:user).order(:created_at => :desc).limit(50)).stock_text_classes)",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "ProductsController",
+          "method": "show",
+          "line": 14,
+          "file": "app/controllers/products_controller.rb",
+          "rendered": {
+            "name": "products/show",
+            "file": "app/views/products/show.html.haml"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "products/show"
+      },
+      "user_input": "Product.find(params[:id])",
+      "confidence": "Weak",
+      "note": "False positive: class string comes from a presenter constant hash, not user input."
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "f218394939a4000bfe36d9ae398ad4a2e748eeaa48caf637a5a943baf652bb73",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/sales_orders/show.html.haml",
+      "line": 24,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "::Haml::AttributeBuilder.build_class(true, SalesOrderPresenter.new(view_context, :sales_order => SalesOrder.find(params[:id])).status_badge_classes)",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "SalesOrdersController",
+          "method": "show",
+          "line": 12,
+          "file": "app/controllers/sales_orders_controller.rb",
+          "rendered": {
+            "name": "sales_orders/show",
+            "file": "app/views/sales_orders/show.html.haml"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "sales_orders/show"
+      },
+      "user_input": "SalesOrder.find(params[:id])",
+      "confidence": "Weak",
+      "note": "False positive: class string comes from a presenter constant hash, not user input."
+    }
+  ],
+  "updated": "2026-09-29 17:46:26 +0700",
+  "brakeman_version": "8.0.6"
+}
