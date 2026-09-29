@@ -28,11 +28,11 @@ class ProductPresenter < ApplicationPresenter
   end
 
   def cost_price_formatted
-    format_currency(@product.cost_price)
+    format_as_currency(@product.cost_price)
   end
 
   def selling_price_formatted
-    format_currency(@product.selling_price)
+    format_as_currency(@product.selling_price)
   end
 
   def stock_quantity_formatted
@@ -100,10 +100,5 @@ class ProductPresenter < ApplicationPresenter
         selling_price_formatted: selling_price_formatted, stock_quantity_formatted: stock_quantity_formatted,
         stock_text_classes: stock_text_classes, path: path, edit_path: edit_path
       }
-    end
-
-  private
-    def format_currency(amount)
-      view.number_to_currency(amount, unit: "Rp ", precision: 0, delimiter: ".", separator: ",")
     end
 end

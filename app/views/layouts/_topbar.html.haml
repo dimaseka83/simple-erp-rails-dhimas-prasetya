@@ -15,4 +15,5 @@
         .dropdown__header
           %p.dropdown__email= @layout_presenter.current_user_email
         %hr.dropdown__divider
+        = link_to t("settings.edit.heading"), edit_settings_path, class: "dropdown__item"
         = button_to t("nav.sign_out"), session_path, method: :delete, class: "dropdown__item"

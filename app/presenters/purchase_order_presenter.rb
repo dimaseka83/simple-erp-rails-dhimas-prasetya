@@ -32,7 +32,7 @@ class PurchaseOrderPresenter < ApplicationPresenter
   end
 
   def total_formatted
-    format_currency(@purchase_order.purchase_order_items.sum { |item| item.quantity * item.unit_cost })
+    format_as_currency(@purchase_order.purchase_order_items.sum { |item| item.quantity * item.unit_cost })
   end
 
   def item_rows
@@ -40,8 +40,8 @@ class PurchaseOrderPresenter < ApplicationPresenter
       {
         product_name: item.product.name,
         quantity: view.number_with_delimiter(item.quantity.to_i),
-        unit_cost_formatted: format_currency(item.unit_cost),
-        subtotal_formatted: format_currency(item.quantity * item.unit_cost)
+        unit_cost_formatted: format_as_currency(item.unit_cost),
+        subtotal_formatted: format_as_currency(item.quantity * item.unit_cost)
       }
     end
   end
@@ -95,7 +95,11 @@ class PurchaseOrderPresenter < ApplicationPresenter
 
   def item_form_labels_json
     {
+      productLabel: view.t("purchase_orders.show.product"),
+      quantityLabel: view.t("purchase_orders.show.quantity"),
       priceLabel: view.t("purchase_orders.show.unit_cost"),
+      subtotalLabel: view.t("purchase_orders.show.subtotal"),
+      totalLabel: view.t("purchase_orders.show.total"),
       addItemLabel: view.t("purchase_orders.form.add_item"),
       removeItemLabel: view.t("purchase_orders.form.remove_item")
     }.to_json
@@ -115,10 +119,5 @@ class PurchaseOrderPresenter < ApplicationPresenter
     def row
       { id: id, supplier_name: supplier_name, status_label: status_label, status_badge_classes: status_badge_classes,
         total_formatted: total_formatted, date_formatted: date_formatted, path: path }
-    end
-
-  private
-    def format_currency(amount)
-      view.number_to_currency(amount, unit: "Rp ", precision: 0, delimiter: ".", separator: ",")
     end
 end

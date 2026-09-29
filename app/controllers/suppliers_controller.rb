@@ -2,7 +2,7 @@ class SuppliersController < ApplicationController
   protect_from_duplicate_requests only: %i[ create update ]
 
   def index
-    @suppliers = Supplier.order(:name)
+    @suppliers = Supplier.search(params[:q]).order(:name)
     @supplier = params[:edit].present? ? Supplier.find(params[:edit]) : Supplier.new
     @supplier_presenter = SupplierPresenter.new(view_context, supplier: @supplier)
     @show_form = params[:new].present? || params[:edit].present?

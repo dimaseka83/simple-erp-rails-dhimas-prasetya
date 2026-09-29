@@ -1,6 +1,6 @@
 class CustomersManager < ApplicationManager
   class << self
-    def create(name:, contact:)
+    def create(name:, contact: nil)
       customer = Customer.new(name: name, contact: contact)
       customer.save ? success(customer) : invalid(customer)
     end

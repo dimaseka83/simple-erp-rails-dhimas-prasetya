@@ -1,0 +1,19 @@
+- content_for :title, t(".heading")
+
+.page__container
+  .page__header
+    %h1.page__title= t(".heading")
+
+  - if flash[:notice]
+    .alert--notice= flash[:notice]
+
+  .panel
+    = form_with model: @setting, url: settings_path, method: :patch, class: "space-y-5" do |form|
+      = request_uuid_field
+      .field__group
+        = form.label :currency, t(".currency_label"), class: "field__label"
+        %p.field__hint= t(".currency_hint")
+        = form.select :currency, @settings_presenter.currency_options, { selected: @settings_presenter.selected_currency }, class: "field__select"
+
+      .form__actions
+        = form.submit t(".submit"), class: "btn--submit"

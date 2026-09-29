@@ -7,4 +7,10 @@ class SalesOrder < ApplicationRecord
   enum :status, { draft: "draft", confirmed: "confirmed" }, default: "draft", validate: true
 
   validates :sales_order_items, presence: true
+
+  scope :search, ->(query) {
+    next all if query.blank?
+    like = "%#{sanitize_sql_like(query)}%"
+    joins(:customer).where("customers.name LIKE :q OR sales_orders.id = :id", q: like, id: query.to_i)
+  }
 end

@@ -37,6 +37,15 @@
   --color-danger: #d65f58;
 }
 
+/* The off-canvas sidebar sits at `left: 0` and hides via `-translate-x-full`
+   (see #sidebar). A translated fixed element still counts toward the
+   viewport's scrollable area even though it's invisible, so without this
+   the whole page gets a few hundred px of horizontal scroll on mobile —
+   the sidebar's own off-screen width leaking into the page. */
+html, body {
+  overflow-x: hidden;
+}
+
 /*
  * Component classes: every visual element gets a semantic name here, so
  * .haml files read as markup + component names, never raw Tailwind chains.
@@ -79,12 +88,43 @@
   .field__row--between {
     @apply flex items-baseline justify-between;
   }
+  .field__hint {
+    @apply text-xs text-ink-muted;
+  }
 
+  /* "+ Add new supplier/customer" disclosure on the PO/SO forms — a plain
+     <details> (see .dropdown for the same no-JS pattern) so creating the
+     related record doesn't need to leave the page or bring in a modal. */
+  .inline-add {
+    @apply [&_summary::-webkit-details-marker]:hidden;
+  }
+  .inline-add__trigger {
+    @apply cursor-pointer list-none text-sm font-medium text-accent hover:underline;
+  }
+  .inline-add__body {
+    @apply mt-3 space-y-4 rounded border border-line bg-bg p-4;
+  }
+  /* Currency symbol shown next to a money input, so the field itself
+     never has to carry a formatted (comma/dot) value — see the money-form
+     note further down for why raw numeric inputs stay unformatted. */
+  .field__money {
+    @apply flex items-center gap-2;
+  }
+  .field__money-symbol {
+    @apply w-9 shrink-0 text-right font-mono text-sm text-ink-muted;
+  }
+
+  /* my-6 (not just mt-6): an alert sits between two other blocks — a
+     heading above, a panel/table below — and needs the same breathing
+     room on both sides, or it reads as glued to whichever one has no
+     margin of its own (see the settings-page screenshot this came from:
+     alert had a clean 24px gap above but sat flush against the panel
+     below with 0px). */
   .alert--error {
-    @apply mt-6 rounded border border-danger/30 bg-danger/10 px-3 py-2 text-sm text-danger;
+    @apply my-6 rounded border border-danger/30 bg-danger/10 px-3 py-2 text-sm text-danger;
   }
   .alert--notice {
-    @apply mt-6 rounded border border-accent/30 bg-accent/10 px-3 py-2 text-sm text-accent;
+    @apply my-6 rounded border border-accent/30 bg-accent/10 px-3 py-2 text-sm text-accent;
   }
 
   .auth__page {
@@ -254,7 +294,7 @@
     @apply my-1 border-line;
   }
   .dropdown__item {
-    @apply w-full rounded px-3 py-2 text-left text-sm text-ink-muted hover:bg-bg;
+    @apply block w-full rounded px-3 py-2 text-left text-sm text-ink-muted hover:bg-bg;
   }
 
   .avatar {
@@ -276,6 +316,20 @@
   }
   .form__actions {
     @apply flex justify-end gap-3;
+  }
+
+  /* "Add item" + running total, below the item table/cards in the PO/SO
+     Vue forms — kept apart from .form__actions (page-level Cancel/Save,
+     always right-aligned) since this row wants the button and total
+     pulled to opposite ends instead of pressed together. */
+  .items-footer {
+    @apply mt-4 flex flex-wrap items-center justify-between gap-4;
+  }
+  .items-footer__total {
+    @apply text-sm text-ink;
+  }
+  .items-footer__total-value {
+    @apply font-mono text-base font-semibold tabular-nums;
   }
 
   .table__container {
@@ -307,6 +361,35 @@
   }
   .table__cell--code {
     @apply px-4 py-3 font-mono text-ink-muted;
+  }
+
+  /* Order item rows on mobile: the desktop <table> (see PurchaseOrderForm.vue
+     / SalesOrderForm.vue) is hard to use once each row needs 4 narrow inputs
+     side by side, so under md it renders as stacked cards instead — one
+     column of full-width fields per item, same data either way. */
+  .item-card {
+    @apply space-y-3 rounded border border-line p-4;
+  }
+  .item-card__row {
+    @apply grid grid-cols-2 gap-3;
+  }
+  .item-card__field {
+    @apply space-y-1;
+  }
+  .item-card__field--full {
+    @apply col-span-2 space-y-1;
+  }
+  .item-card__label {
+    @apply text-xs font-medium text-ink-muted;
+  }
+  .item-card__subtotal {
+    @apply flex items-center justify-between border-t border-line pt-3 text-sm;
+  }
+  .item-card__subtotal-value {
+    @apply font-mono tabular-nums text-ink;
+  }
+  .item-cards {
+    @apply space-y-3;
   }
 
   /* Status badges: three semantic colors only (accent/warn/danger), never
@@ -412,6 +495,28 @@
 
   .invoice__total {
     @apply mt-4 flex justify-end gap-4 border-t border-line pt-4 text-base font-semibold;
+  }
+
+  /* Dashboard KPIs: big mono number + label, no icon-in-circle — see
+     design.md §6b (that's the most recognizably-Metronic pattern to avoid). */
+  .stat-grid {
+    @apply mb-8 grid gap-6 sm:grid-cols-3;
+  }
+  .stat {
+    @apply border-t-2 border-accent pt-3;
+  }
+  .stat__value {
+    @apply font-mono text-3xl font-semibold tabular-nums text-ink;
+  }
+  .stat__label {
+    @apply mt-1 text-sm text-ink-muted;
+  }
+
+  .chart-grid {
+    @apply grid gap-6 lg:grid-cols-2;
+  }
+  .chart {
+    @apply -ml-2;
   }
 }
 

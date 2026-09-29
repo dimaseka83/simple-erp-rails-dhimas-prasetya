@@ -4,6 +4,9 @@
   .page__header
     %h1.page__title= t(".heading")
 
+  = form_with url: stock_movements_path, method: :get, class: "search-bar" do |form|
+    = form.text_field :q, value: params[:q], placeholder: t(".search_placeholder"), class: "search-bar__input"
+
   - if @stock_movement_presenter.movements_empty?
     .empty-state= t(".empty")
   - else

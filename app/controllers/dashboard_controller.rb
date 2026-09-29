@@ -1,8 +1,9 @@
 class DashboardController < ApplicationController
-  # No Manager here: Current.user is already resolved by the Authentication
-  # concern before this action runs, so there's no query or business logic
-  # left for a manager to own.
   def index
-    @dashboard_presenter = DashboardPresenter.new(view_context, user: Current.user)
+    result = ::DashboardManager.overview
+    @dashboard_presenter = DashboardPresenter.new(view_context, user: Current.user, overview: result.object)
+    gon.monthly_sales_chart = @dashboard_presenter.monthly_sales_chart_data
+    gon.top_products_chart = @dashboard_presenter.top_products_chart_data
+    gon.currency_format = @dashboard_presenter.currency_format
   end
 end

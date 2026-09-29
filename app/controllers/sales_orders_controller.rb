@@ -3,7 +3,7 @@ class SalesOrdersController < ApplicationController
   protect_from_duplicate_requests only: %i[ create update confirm ]
 
   def index
-    sales_orders = paginate(SalesOrder.includes(:customer, :sales_order_items).order(created_at: :desc))
+    sales_orders = paginate(SalesOrder.includes(:customer, :sales_order_items).search(params[:q]).order(created_at: :desc))
     @sales_order_presenter = SalesOrderPresenter.new(view_context, sales_orders: sales_orders)
   end
 
@@ -55,14 +55,17 @@ class SalesOrdersController < ApplicationController
 
     def sales_order_params
       params.require(:sales_order)
-            .permit(:customer_id, sales_order_items_attributes: %i[ product_id quantity unit_price ])
-            .to_h.symbolize_keys
+            .permit(:customer_id,
+              sales_order_items_attributes: %i[ product_id quantity unit_price ],
+              new_customer: %i[ name contact ])
+            .to_h.deep_symbolize_keys
     end
 
     def form_presenter(sales_order)
       presenter = SalesOrderPresenter.new(view_context, sales_order: sales_order, customers: Customer.order(:name), products: Product.order(:name))
       gon.products = presenter.product_options_for_vue
       gon.initial_items = presenter.initial_items_for_vue
+      gon.currency_format = presenter.currency_format
       presenter
     end
 

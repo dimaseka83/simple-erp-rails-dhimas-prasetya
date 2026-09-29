@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resource :session
   resources :passwords, param: :token
   get "locale/:locale", to: "locales#update", as: :set_locale, constraints: { locale: /en|id/ }
+  resource :settings, only: %i[ edit update ]
 
   resources :categories, only: %i[ index create update ]
   resources :products do

@@ -2,7 +2,7 @@ class CustomersController < ApplicationController
   protect_from_duplicate_requests only: %i[ create update ]
 
   def index
-    @customers = Customer.order(:name)
+    @customers = Customer.search(params[:q]).order(:name)
     @customer = params[:edit].present? ? Customer.find(params[:edit]) : Customer.new
     @customer_presenter = CustomerPresenter.new(view_context, customer: @customer)
     @show_form = params[:new].present? || params[:edit].present?

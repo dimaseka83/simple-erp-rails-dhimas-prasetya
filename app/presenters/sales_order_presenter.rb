@@ -32,7 +32,7 @@ class SalesOrderPresenter < ApplicationPresenter
   end
 
   def total_formatted
-    format_currency(total)
+    format_as_currency(total)
   end
 
   def item_rows
@@ -40,8 +40,8 @@ class SalesOrderPresenter < ApplicationPresenter
       {
         product_name: item.product.name,
         quantity: view.number_with_delimiter(item.quantity.to_i),
-        unit_price_formatted: format_currency(item.unit_price),
-        subtotal_formatted: format_currency(item.quantity * item.unit_price)
+        unit_price_formatted: format_as_currency(item.unit_price),
+        subtotal_formatted: format_as_currency(item.quantity * item.unit_price)
       }
     end
   end
@@ -95,7 +95,11 @@ class SalesOrderPresenter < ApplicationPresenter
 
   def item_form_labels_json
     {
+      productLabel: view.t("sales_orders.show.product"),
+      quantityLabel: view.t("sales_orders.show.quantity"),
       priceLabel: view.t("sales_orders.show.unit_price"),
+      subtotalLabel: view.t("sales_orders.show.subtotal"),
+      totalLabel: view.t("sales_orders.show.total"),
       addItemLabel: view.t("sales_orders.form.add_item"),
       removeItemLabel: view.t("sales_orders.form.remove_item")
     }.to_json
@@ -120,9 +124,5 @@ class SalesOrderPresenter < ApplicationPresenter
   private
     def total
       @sales_order.sales_order_items.sum { |item| item.quantity * item.unit_price }
-    end
-
-    def format_currency(amount)
-      view.number_to_currency(amount, unit: "Rp ", precision: 0, delimiter: ".", separator: ",")
     end
 end

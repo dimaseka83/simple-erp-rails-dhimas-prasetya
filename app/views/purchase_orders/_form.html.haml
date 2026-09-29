@@ -4,6 +4,20 @@
     = form.label :supplier_id, t("purchase_orders.form.supplier_label"), class: "field__label"
     = form.select :supplier_id, @purchase_order_presenter.supplier_options, { selected: @purchase_order_presenter.selected_supplier_id }, class: "field__select"
 
+    %details.inline-add
+      %summary.inline-add__trigger= t("purchase_orders.form.add_supplier")
+      .inline-add__body
+        %p.field__hint= t("purchase_orders.form.add_supplier_hint")
+        .field__group
+          = label_tag "purchase_order_new_supplier_name", t("purchase_orders.form.new_supplier_name_label"), class: "field__label"
+          = text_field_tag "purchase_order[new_supplier][name]", nil, id: "purchase_order_new_supplier_name", class: "field__input"
+        .field__group
+          = label_tag "purchase_order_new_supplier_contact", t("purchase_orders.form.new_supplier_contact_label"), class: "field__label"
+          = text_field_tag "purchase_order[new_supplier][contact]", nil, id: "purchase_order_new_supplier_contact", class: "field__input"
+        .field__group
+          = label_tag "purchase_order_new_supplier_address", t("purchase_orders.form.new_supplier_address_label"), class: "field__label"
+          = text_field_tag "purchase_order[new_supplier][address]", nil, id: "purchase_order_new_supplier_address", class: "field__input"
+
   %h2.section-title= t("purchase_orders.show.items")
   %div{"data-vue-component" => "PurchaseOrderForm", "data-props" => @purchase_order_presenter.item_form_labels_json}
 
