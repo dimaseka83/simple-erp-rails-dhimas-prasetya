@@ -129,7 +129,7 @@ GEM
       raabro (~> 1.4)
     globalid (1.4.0)
       activesupport (>= 6.1)
-    gon (7.1.0)
+    gon (8.0.0)
       actionpack (>= 3.0.20)
       activesupport
       i18n (>= 0.7)
@@ -480,7 +480,7 @@ CHECKSUMS
   ffi (1.17.4-x86_64-linux-musl) sha256=3fdf9888483de005f8ef8d1cf2d3b20d86626af206cbf780f6a6a12439a9c49e
   fugit (1.14.0) sha256=e311a9cc85a54bb67649df45060e721282a1e2c8ebad40e41874a3a7d576f37e
   globalid (1.4.0) sha256=037f12fbf1d9d7a014d501c2d5c77356fd4ddd96d7a7991d6700bba96706f427
-  gon (7.1.0) sha256=0040430353a1ee39b30c3a238dcf3f7fc10fbd38597a87c2f55af531ef6c551b
+  gon (8.0.0) sha256=f776643649012dc8458b0a4dbeec5299401b24e1f07582aac18733931a24d06d
   haml (7.5.1) sha256=91c5843dd85d32042cc6218d2df8c81282403459958aa53caa58fda238adc287
   haml-rails (3.1.0) sha256=4366474d973e4b9d5326cb216f2073150cfeff4c2a3c07fadb49a490ffdf610b
   i18n (1.15.2) sha256=00f9eb62412fe593b2a65a97daa75300d37abb8f7202ec748e94b6d46a9dd1b5
